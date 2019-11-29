@@ -62,9 +62,10 @@ class ExampleState extends State<Example> {
         body: Stack(
           children: <Widget>[
             Container(
+              width: size.width,
+              height: size.height,
               child: webView = XEWebView(
                 url: htmlUrl,
-                height: size.height - 100,
                 //webview 加载信息回调
                 callback: callBack,
               ),

@@ -41,10 +41,6 @@
                 defaultHeight = [UIScreen mainScreen].bounds.size.height - 88;
             }
             
-            if (dic[@"height"] != nil) {
-                defaultHeight = [dic[@"height"] doubleValue];
-            }
-            
             frame = CGRectMake(frame.origin.x,
                                frame.origin.y,
                                [UIScreen mainScreen].bounds.size.width,

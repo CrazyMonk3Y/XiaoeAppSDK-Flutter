@@ -20,29 +20,22 @@ enum XEWebViewType {
 class XEWebView extends StatefulWidget {
   //加载的网页 URL
   String url;
-  // webview 高度
-  double height;
 
   /**
-   * code 原生 Android iOS 回调 Flutter 的消息类型标识
-   * message 消息类型日志
    * content 回调的基本数据
+   * webviewType  回调的类型
    */
   Function(dynamic content, XEWebViewType webviewType) callback;
 
 
   XEWebView({
     this.url,
-    this.height,
     this.callback,
   });
 
   @override
   State<StatefulWidget> createState() {
-    viewState = new XEWebViewState(callback,
-        url: url,
-        height: height
-    );
+    viewState = new XEWebViewState(callback,url: url);
     return viewState;
   }
 
@@ -92,9 +85,6 @@ class XEWebViewState extends State<XEWebView> {
   // 加载的网页 URL
   String url;
 
-  // webview 高度
-  double height;
-
   int viewId = -1;
 
   MethodChannel _channel;
@@ -103,7 +93,7 @@ class XEWebViewState extends State<XEWebView> {
   Function(dynamic content, XEWebViewType webviewType) callback;
 
   XEWebViewState(this.callback,
-      {this.url, this.height});
+      {this.url});
 
   @override
   void initState() {
@@ -214,7 +204,6 @@ class XEWebViewState extends State<XEWebView> {
       //参数初始化
       creationParams: {
         "url": url,
-        "height": height,
       },
       //参数的编码方式
       creationParamsCodec: const StandardMessageCodec(),
