@@ -1,8 +1,8 @@
 name: xe_shop_sdk
-description: A new flutter plugin project.
-version: 0.0.1
-author:
-homepage:
+description: A new flutter plugin for xiaoe shop sdk
+version: 1.0.0
+author: xiaoe-tech<support@xiaoe-tech.com>
+homepage: https://www.xiaoe-tech.com
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
