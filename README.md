@@ -9,7 +9,7 @@
 dependencies:
  		待添加
 ```
-### 更多使用
+###[更多使用](https://github.com/xiaoeteam/XiaoeAppSDK-Flutter/wiki "更多使用")
 
 
 
