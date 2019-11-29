@@ -29,7 +29,7 @@ class XeShopSdkPlugin(val registrar: Registrar) : MethodCallHandler {
                 val clientId = methodCall.argument<String>("clientId")
                 val appId = methodCall.argument<String>("appId")
                 XiaoEWeb.init(registrar.activity() ,appId, clientId, XiaoEWeb.WebViewType.X5)
-                MyViewFlutterPlugin.registerWith(registrar.activity() as FlutterActivity) { wv, messenger, id, params ->
+                XeWebViewFlutterPlugin.registerWith(registrar.activity() as FlutterActivity) { wv, messenger, id, params ->
                     xeWebView = wv
                 }
             }

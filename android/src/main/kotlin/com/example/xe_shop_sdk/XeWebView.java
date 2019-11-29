@@ -17,13 +17,13 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
-public class MyView implements PlatformView, MethodChannel.MethodCallHandler {
+public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler {
 
     private final XeWebLayout myNativeView;
     private final String SHOP_URL;
     private final MethodChannel mChannel;
 
-    MyView(Context context, final BinaryMessenger messenger, int viewId, Map<String, Object> params, IWebView webView) {
+    XeWebView(Context context, final BinaryMessenger messenger, int viewId, Map<String, Object> params, IXeWebView webView) {
         Context activityContext = context;
         Context appContext = context.getApplicationContext();
         if (appContext instanceof FlutterApplication) {

@@ -78,8 +78,10 @@ class ExampleState extends State<Example> {
   void callBack(data, type) {
     setState(() {
       if(type == XEWebViewType.Share){
+        //分享弹吐司（这里用户根据自己的业务实现分享功能）
         Fluttertoast.showToast(msg: data);
       } else if(type == XEWebViewType.Login){
+        //拉起登录弹窗（这里用户根据自己的业务实现登录功能）
         showLoginDialog();
       } else if (type == XEWebViewType.CanNotGoBack) {
         Navigator.pop(context);
@@ -87,7 +89,7 @@ class ExampleState extends State<Example> {
     });
   }
 
-  //登录对话框
+  //显示登录弹窗（用户根据自己的业务实现自己的登录功能）
   void showLoginDialog(){
     TextEditingController _userNameController = new TextEditingController();
     showDialog(
@@ -124,6 +126,7 @@ class ExampleState extends State<Example> {
                   Response repsonse;
                   Dio dio = new Dio(options);
 
+                  //下面的登录态请求仅作Demo用，建议用户在自己的App后台调用这两个接口，然后App后台给App提供一个登录接口
                   repsonse = await dio.get("http://api.xiaoe-tech.com/token",
                       queryParameters: {"app_id": "app38itOR341547",
                         "secret_key": "ak5JMM6Tt7ktzzPPeNvpCn0EI022HSvJ",
