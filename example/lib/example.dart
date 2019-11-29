@@ -62,6 +62,9 @@ class ExampleState extends State<Example> {
         body: Stack(
           children: <Widget>[
             Container(
+              // **** 必须设置宽高
+              // 当 XEWebView 被嵌套在可滑动的 widget 中，必须设置 XEWebView 的高度
+              // 设置 XEWebView 的高度 可通过在 XEWebView 嵌套一层 Container 或者 SizeBox
               width: size.width,
               height: size.height,
               child: webView = XEWebView(
