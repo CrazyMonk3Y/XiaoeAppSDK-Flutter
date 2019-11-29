@@ -3,11 +3,11 @@
 
 ### 安装
 
-在工程 pubspec.yaml 中加入 dependencies
+在工程 pubspec.yaml 中加入 dependencies：[pub.dev](https://pub.dev/packages/xe_shop_sdk#-installing-tab- "pub.dev")
 
 ```yaml
 dependencies:
- 		待添加
+  xe_shop_sdk: ^1.0.0
 ```
 ### [更多使用](https://github.com/xiaoeteam/XiaoeAppSDK-Flutter/wiki "更多使用")
 
