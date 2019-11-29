@@ -18,7 +18,8 @@ enum XEWebViewType {
 }
 
 class XEWebView extends StatefulWidget {
-  //加载的网页 URL
+
+  // 店铺 URL
   String url;
 
   /**
