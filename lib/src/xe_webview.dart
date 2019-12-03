@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 enum XEWebViewType {
 
@@ -173,28 +174,33 @@ class XEWebViewState extends State<XEWebView> {
       }
     });
   }
-
+//  Widget buildAndroidWebView() {
+//    return AndroidView(
+//      //调用标识
+//      viewType: "com.xiaoe-tech.xewebview",
+//      //参数初始化
+//      creationParams: {
+//        "url": url,
+//      },
+//      //参数的编码方式
+//      creationParamsCodec: const StandardMessageCodec(),
+//      //webview 创建后的回调
+//      onPlatformViewCreated: (id) {
+//        viewId = id;
+//        print("onPlatformViewCreated " + id.toString());
+//        //创建通道
+//        _channel = new MethodChannel('com.xiaoe-tech.xewebview_$viewId');
+//        //设置监听
+//        nativeMessageListener();
+//        //加载页面
+//        loadUrl();
+//      },
+//    );
+//  }
   Widget buildAndroidWebView() {
-    return AndroidView(
-      //调用标识
-      viewType: "com.xiaoe-tech.xewebview",
-      //参数初始化
-      creationParams: {
-        "url": url,
-      },
-      //参数的编码方式
-      creationParamsCodec: const StandardMessageCodec(),
-      //webview 创建后的回调
-      onPlatformViewCreated: (id) {
-        viewId = id;
-        print("onPlatformViewCreated " + id.toString());
-        //创建通道
-        _channel = new MethodChannel('com.xiaoe-tech.xewebview_$viewId');
-        //设置监听
-        nativeMessageListener();
-        //加载页面
-        loadUrl();
-      },
+    return WebView(
+      initialUrl: url,
+      javascriptMode:JavascriptMode.unrestricted,
     );
   }
 

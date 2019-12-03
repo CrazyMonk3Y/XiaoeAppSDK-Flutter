@@ -141,6 +141,7 @@ class ExampleState extends State<Example> {
                   tokenResponse = await dio.post("http://api.xiaoe-tech.com/xe.sdk.account.login/1.0.0",
                       data: {"app_user_id": _userNameController.text.toString(), "access_token": accessToken, "sdk_app_id": "883pzzGyzynE72G"});
                   Map tokenMap = json.decode(tokenResponse.data.toString());
+                  print("key:"+tokenMap['data']['token_key']+" val:"+tokenMap['data']['token_value']);
                   XESDK.synchronizeToken(tokenMap['data']['token_key'], tokenMap['data']['token_value']);
                 },
               )
