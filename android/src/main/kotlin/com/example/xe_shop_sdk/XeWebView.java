@@ -2,15 +2,20 @@ package com.example.xe_shop_sdk;
 
 import android.app.Activity;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import android.view.View;
+
 import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.bridge.JsInteractType;
 import com.xiaoe.shop.webcore.webview.XeWebLayout;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -47,7 +52,8 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
@@ -73,9 +79,19 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                             mChannel.invokeMethod("android", param);
                             break;
                         }
+                        case JsInteractType.INPUT_FOCUS_ACTION:{
+                            Map<String, Object> param = new HashMap<>();
+                            param.put("code", 700);
+                            param.put("message", "拉起输入框通知");
+                            param.put("data", jsCallbackResponse.getResponseData());
+                            mChannel.invokeMethod("android", param);
+                            break;
+                        }
                     }
                 }
             });
+            //首次加载之后告知h5 android 平台特殊值
+            myNativeView.sentPlatform("flutter");
         } else if ("reload".equals(method)) {
             myNativeView.reload();
         } else if ("synchronizeToken".equals(method)) {
@@ -90,6 +106,10 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
             myNativeView.share();
         } else if ("goBack".equals(method)) {
             result.success(myNativeView.handlerBack());
+        } else if ("sentInputFromFocus".equals(method)) {
+            String sentInputFromFocus = methodCall.argument("content");
+            myNativeView.sentInputFromFocus(sentInputFromFocus);
         }
+
     }
 }

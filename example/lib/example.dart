@@ -88,10 +88,46 @@ class ExampleState extends State<Example> {
         showLoginDialog();
       } else if (type == XEWebViewType.CanNotGoBack) {
         Navigator.pop(context);
+      } else if (type == XEWebViewType.RequestInputDialog) {
+        showInputDialog();
       }
     });
   }
-
+  //显示输入弹窗（android webView无法拉起输入法只能使用dart端弹框输入）
+  void showInputDialog(){
+    TextEditingController _userNameController = new TextEditingController();
+    TextEditingController _contentController = new TextEditingController();
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: TextField(
+                controller: _contentController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: '请输入内容')),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('取消'),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('确定'),
+                onPressed: () async {
+                  if(_contentController.text.toString().isEmpty)
+                    {
+                      Navigator.of(context).pop();
+                      return;
+                    }
+                  webView.sentInputFromFocus(content: _contentController.text.toString());
+                },
+              )
+            ],
+          );
+        });
+  }
   //显示登录弹窗（用户根据自己的业务实现自己的登录功能）
   void showLoginDialog(){
     TextEditingController _userNameController = new TextEditingController();
