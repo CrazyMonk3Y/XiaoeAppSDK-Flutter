@@ -66,14 +66,7 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         final String method = methodCall.method;
         if ("load".equals(method)) {
-            XeWebLayout.setPlatformVersion(new XeWebLayout.a() {
-                @Override
-                public String a() {
-                    Toast.makeText(myNativeView.getContext(),"load finish",Toast.LENGTH_SHORT).show();
-                    myNativeView.sentPlatform("flutter_Android");
-                    return "flutter_Android";
-                }
-            });
+
             myNativeView.loadUrl(SHOP_URL);
             myNativeView.setJsCallBack(new JsBridgeListener() {
                 @Override
@@ -105,13 +98,6 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                     }
                 }
             });
-            //首次加载之后告知h5 android 平台特殊值
-//            new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    myNativeView.sentPlatform("flutter_Android");
-//                }
-//            }, 3000L);
         } else if ("reload".equals(method)) {
             myNativeView.reload();
         } else if ("synchronizeToken".equals(method)) {

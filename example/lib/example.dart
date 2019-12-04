@@ -22,9 +22,9 @@ class ExampleState extends State<Example> {
   String message = "--";
 
   // 页面
-  String htmlUrl = "http://134.175.39.17:9887/";
-  String clientId = "KfeSEfFWTwTzfkE";
-  String appId = "appdRx8JicQ9960";
+  String htmlUrl = "https://app38itOR341547.sdk.xiaoe-tech.com/";
+  String clientId = "883pzzGyzynE72G";
+  String appId = "app38itOR341547";
 
   @override
   void initState() {
@@ -88,44 +88,8 @@ class ExampleState extends State<Example> {
         showLoginDialog();
       } else if (type == XEWebViewType.CanNotGoBack) {
         Navigator.pop(context);
-      } else if (type == XEWebViewType.RequestInputDialog) {
-        showInputDialog();
       }
     });
-  }
-  //显示输入弹窗（android webView无法拉起输入法只能使用dart端弹框输入）
-  void showInputDialog(){
-    TextEditingController _contentController = new TextEditingController();
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context){
-          return AlertDialog(
-            content: TextField(
-                controller: _contentController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: '请输入内容')),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('取消'),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text('确定'),
-                onPressed: () async {
-                  if(_contentController.text.toString().isEmpty)
-                    {
-                      return;
-                    }
-                  webView.sentInputFromFocus(content: _contentController.text.toString());
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
   }
   //显示登录弹窗（用户根据自己的业务实现自己的登录功能）
   void showLoginDialog(){
