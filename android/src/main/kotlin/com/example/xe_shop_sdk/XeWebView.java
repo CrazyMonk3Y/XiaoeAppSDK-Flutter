@@ -5,16 +5,23 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import android.os.Looper;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.bridge.JsInteractType;
+import com.xiaoe.shop.webcore.webclient.webviewclient.DefaultAndroidWebViewClient;
+import com.xiaoe.shop.webcore.webview.ICustomWebView;
 import com.xiaoe.shop.webcore.webview.XeWebLayout;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
 
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -59,6 +66,14 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         final String method = methodCall.method;
         if ("load".equals(method)) {
+            XeWebLayout.setPlatformVersion(new XeWebLayout.a() {
+                @Override
+                public String a() {
+                    Toast.makeText(myNativeView.getContext(),"load finish",Toast.LENGTH_SHORT).show();
+                    myNativeView.sentPlatform("flutter_Android");
+                    return "flutter_Android";
+                }
+            });
             myNativeView.loadUrl(SHOP_URL);
             myNativeView.setJsCallBack(new JsBridgeListener() {
                 @Override
@@ -79,7 +94,7 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                             mChannel.invokeMethod("android", param);
                             break;
                         }
-                        case JsInteractType.INPUT_FOCUS_ACTION:{
+                        case JsInteractType.INPUT_FOCUS_ACTION: {
                             Map<String, Object> param = new HashMap<>();
                             param.put("code", 700);
                             param.put("message", "拉起输入框通知");
@@ -91,7 +106,12 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                 }
             });
             //首次加载之后告知h5 android 平台特殊值
-            myNativeView.sentPlatform("flutter");
+//            new android.os.Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    myNativeView.sentPlatform("flutter_Android");
+//                }
+//            }, 3000L);
         } else if ("reload".equals(method)) {
             myNativeView.reload();
         } else if ("synchronizeToken".equals(method)) {

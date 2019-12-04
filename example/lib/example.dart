@@ -22,9 +22,9 @@ class ExampleState extends State<Example> {
   String message = "--";
 
   // 页面
-  String htmlUrl = "https://app38itOR341547.sdk.xiaoe-tech.com/";
-  String clientId = "883pzzGyzynE72G";
-  String appId = "app38itOR341547";
+  String htmlUrl = "http://134.175.39.17:9887/";
+  String clientId = "KfeSEfFWTwTzfkE";
+  String appId = "appdRx8JicQ9960";
 
   @override
   void initState() {
@@ -95,7 +95,6 @@ class ExampleState extends State<Example> {
   }
   //显示输入弹窗（android webView无法拉起输入法只能使用dart端弹框输入）
   void showInputDialog(){
-    TextEditingController _userNameController = new TextEditingController();
     TextEditingController _contentController = new TextEditingController();
     showDialog(
         context: context,
@@ -118,10 +117,10 @@ class ExampleState extends State<Example> {
                 onPressed: () async {
                   if(_contentController.text.toString().isEmpty)
                     {
-                      Navigator.of(context).pop();
                       return;
                     }
                   webView.sentInputFromFocus(content: _contentController.text.toString());
+                  Navigator.of(context).pop();
                 },
               )
             ],
