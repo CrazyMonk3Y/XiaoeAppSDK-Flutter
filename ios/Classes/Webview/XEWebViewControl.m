@@ -26,12 +26,6 @@
 -(instancetype)initWithWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId arguments:(id)args binaryMessenger:(NSObject<FlutterBinaryMessenger> *)messenger{
     if ([super init]) {
         
-        // 接收 初始化参数 XEShopSDK
-        NSDictionary *dic = args;
-        NSString *clientId = dic[@"clientId"];
-        NSString *appId = dic[@"appId"];
-        NSString *scheme = dic[@"scheme"];
-        
         if (frame.size.width == 0) {
             
             int defaultHeight = [UIScreen mainScreen].bounds.size.height - 64;
@@ -51,10 +45,6 @@
         _webView.delegate = self;
         _webView.noticeDelegate = self;
         _viewId = viewId;
-        
-        XEConfig *config = [[XEConfig alloc] initWithClientId:clientId appId:appId];
-        config.scheme = scheme;
-        [XESDK.shared initializeSDKWithConfig:config];
         
         // 注册flutter 与 ios 通信通道
         NSString* channelName = [NSString stringWithFormat:@"com.xiaoe-tech.xewebview_%lld", viewId];

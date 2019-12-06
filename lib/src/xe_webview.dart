@@ -99,6 +99,7 @@ class XEWebViewState extends State<XEWebView> {
   @override
   void initState() {
     super.initState();
+
     NativeEventMessage.getDefault().register((event) {
       String code = event["code"];
       if (code == "reLoad") {
