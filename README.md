@@ -7,7 +7,7 @@
 
 ```yaml
 dependencies:
-  xe_shop_sdk: ^1.0.0
+  xe_shop_sdk: 1.0.0
 ```
 ### [更多使用](https://github.com/xiaoeteam/XiaoeAppSDK-Flutter/wiki "更多使用")
 

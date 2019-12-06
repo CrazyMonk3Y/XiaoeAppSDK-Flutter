@@ -15,6 +15,8 @@ enum XEWebViewType {
   FailLoad,  // 加载出错
 
   CanNotGoBack, // webview can not Goback
+
+  RequestInputDialog,//仅android拉起输入框事件
 }
 
 class XEWebView extends StatefulWidget {
@@ -80,6 +82,14 @@ class XEWebView extends StatefulWidget {
     });
   }
 
+  ///仅android对接调用------------
+  void sentInputFromFocus({String content}) {
+    NativeEventMessage.getDefault().post({
+      "code": "sentInputFromFocus",
+      "content": content,
+    });
+  }
+  ///----------------------------
 }
 
 class XEWebViewState extends State<XEWebView> {
@@ -118,6 +128,8 @@ class XEWebViewState extends State<XEWebView> {
         stopLoading();
       } else if (code == "cancelLogin") {
         cancelLogin();
+      } else if (code == "sentInputFromFocus") {
+        sentInputFromFocus(event["content"]);
       }
     });
   }
@@ -152,6 +164,8 @@ class XEWebViewState extends State<XEWebView> {
 //   * 503 webview 分享通知
 
 //   * 600 webview can not Goback
+
+//   * 700 webView 弹输入框通知
 //   *
 //   * @param map
 //   */
@@ -243,6 +257,9 @@ class XEWebViewState extends State<XEWebView> {
       case 600:
         type = XEWebViewType.CanNotGoBack;
         break;
+      case 700:
+        type = XEWebViewType.RequestInputDialog;
+        break;
       default:
         break;
     }
@@ -274,6 +291,12 @@ class XEWebViewState extends State<XEWebView> {
 
   void cancelLogin() {
     _channel.invokeMethod('cancelLogin');
+  }
+
+  void sentInputFromFocus(content) {
+    _channel.invokeMethod('sentInputFromFocus', {
+      "content": content,
+    });
   }
 }
 

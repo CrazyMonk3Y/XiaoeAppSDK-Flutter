@@ -2,28 +2,40 @@ package com.example.xe_shop_sdk;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
+import android.os.Looper;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+
 import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.bridge.JsInteractType;
+import com.xiaoe.shop.webcore.webclient.webviewclient.DefaultAndroidWebViewClient;
+import com.xiaoe.shop.webcore.webview.ICustomWebView;
 import com.xiaoe.shop.webcore.webview.XeWebLayout;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
+
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
-public class MyView implements PlatformView, MethodChannel.MethodCallHandler {
+public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler {
 
     private final XeWebLayout myNativeView;
     private final String SHOP_URL;
     private final MethodChannel mChannel;
 
-    MyView(Context context, final BinaryMessenger messenger, int viewId, Map<String, Object> params, IWebView webView) {
+    XeWebView(Context context, final BinaryMessenger messenger, int viewId, Map<String, Object> params, IXeWebView webView) {
         Context activityContext = context;
         Context appContext = context.getApplicationContext();
         if (appContext instanceof FlutterApplication) {
@@ -47,12 +59,14 @@ public class MyView implements PlatformView, MethodChannel.MethodCallHandler {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         final String method = methodCall.method;
         if ("load".equals(method)) {
+
             myNativeView.loadUrl(SHOP_URL);
             myNativeView.setJsCallBack(new JsBridgeListener() {
                 @Override
@@ -69,6 +83,14 @@ public class MyView implements PlatformView, MethodChannel.MethodCallHandler {
                             Map<String, Object> param = new HashMap<>();
                             param.put("code", 503);
                             param.put("message", "分享通知");
+                            param.put("data", jsCallbackResponse.getResponseData());
+                            mChannel.invokeMethod("android", param);
+                            break;
+                        }
+                        case JsInteractType.INPUT_FOCUS_ACTION: {
+                            Map<String, Object> param = new HashMap<>();
+                            param.put("code", 700);
+                            param.put("message", "拉起输入框通知");
                             param.put("data", jsCallbackResponse.getResponseData());
                             mChannel.invokeMethod("android", param);
                             break;
@@ -90,6 +112,10 @@ public class MyView implements PlatformView, MethodChannel.MethodCallHandler {
             myNativeView.share();
         } else if ("goBack".equals(method)) {
             result.success(myNativeView.handlerBack());
+        } else if ("sentInputFromFocus".equals(method)) {
+            String sentInputFromFocus = methodCall.argument("content");
+            myNativeView.sentInputFromFocus(sentInputFromFocus);
         }
+
     }
 }
