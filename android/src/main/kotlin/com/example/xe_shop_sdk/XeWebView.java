@@ -2,27 +2,16 @@ package com.example.xe_shop_sdk;
 
 import android.app.Activity;
 import android.content.Context;
-
 import androidx.annotation.NonNull;
-
-import android.os.Looper;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
-
 import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.bridge.JsInteractType;
-import com.xiaoe.shop.webcore.webclient.webviewclient.DefaultAndroidWebViewClient;
-import com.xiaoe.shop.webcore.webview.ICustomWebView;
 import com.xiaoe.shop.webcore.webview.XeWebLayout;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
-
+import java.util.Objects;
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -45,7 +34,7 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
             }
         }
 
-        SHOP_URL = params.get("url").toString();
+        SHOP_URL = Objects.requireNonNull(params.get("url")).toString();
         XeWebLayout myNativeView = new XeWebLayout(activityContext);
         webView.getWebView(myNativeView, messenger, viewId, params);
         mChannel = new MethodChannel(messenger, "com.xiaoe-tech.xewebview_" + viewId + "");
@@ -66,7 +55,6 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         final String method = methodCall.method;
         if ("load".equals(method)) {
-
             myNativeView.loadUrl(SHOP_URL);
             myNativeView.setJsCallBack(new JsBridgeListener() {
                 @Override
@@ -83,14 +71,6 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                             Map<String, Object> param = new HashMap<>();
                             param.put("code", 503);
                             param.put("message", "分享通知");
-                            param.put("data", jsCallbackResponse.getResponseData());
-                            mChannel.invokeMethod("android", param);
-                            break;
-                        }
-                        case JsInteractType.INPUT_FOCUS_ACTION: {
-                            Map<String, Object> param = new HashMap<>();
-                            param.put("code", 700);
-                            param.put("message", "拉起输入框通知");
                             param.put("data", jsCallbackResponse.getResponseData());
                             mChannel.invokeMethod("android", param);
                             break;
@@ -112,10 +92,6 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
             myNativeView.share();
         } else if ("goBack".equals(method)) {
             result.success(myNativeView.handlerBack());
-        } else if ("sentInputFromFocus".equals(method)) {
-            String sentInputFromFocus = methodCall.argument("content");
-            myNativeView.sentInputFromFocus(sentInputFromFocus);
         }
-
     }
 }
