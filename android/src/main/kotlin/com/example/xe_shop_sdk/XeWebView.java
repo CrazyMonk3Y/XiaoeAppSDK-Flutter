@@ -11,7 +11,6 @@ import com.xiaoe.shop.webcore.bridge.JsInteractType;
 import com.xiaoe.shop.webcore.webview.XeWebLayout;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import io.flutter.app.FlutterApplication;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -34,7 +33,7 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
             }
         }
 
-        SHOP_URL = Objects.requireNonNull(params.get("url")).toString();
+        SHOP_URL = params.get("url").toString();
         XeWebLayout myNativeView = new XeWebLayout(activityContext);
         webView.getWebView(myNativeView, messenger, viewId, params);
         mChannel = new MethodChannel(messenger, "com.xiaoe-tech.xewebview_" + viewId + "");
