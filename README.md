@@ -7,7 +7,7 @@
 
 ```yaml
 dependencies:
-  xe_shop_sdk: 1.0.0
+  xe_shop_sdk: 1.0.1
 ```
 
 或 Git 依赖
