@@ -131,17 +131,6 @@
             
         }
             break;
-        case XENoticeTypeLogout:
-        {
-            // 退出通知
-            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-            [dict setObject:[NSNumber numberWithInt:502] forKey:@"code"];
-            [dict setObject:@"退出通知" forKey:@"message"];
-            [dict setObject:@"" forKey:@"data"];
-            
-            [self messagePost:dict];
-        }
-            break;
         case XENoticeTypeShare:
         {
             // 接收到分享请求的结果回调
