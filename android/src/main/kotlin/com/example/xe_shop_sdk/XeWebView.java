@@ -8,7 +8,8 @@ import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.bridge.JsInteractType;
-import com.xiaoe.shop.webcore.webview.XeWebLayout;
+import com.xiaoe.shop.webcore.webview.FlutterCustWebView;
+
 import java.util.HashMap;
 import java.util.Map;
 import io.flutter.app.FlutterApplication;
@@ -19,7 +20,7 @@ import io.flutter.plugin.platform.PlatformView;
 
 public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler {
 
-    private final XeWebLayout myNativeView;
+    private final FlutterCustWebView myNativeView;
     private final String SHOP_URL;
     private final MethodChannel mChannel;
 
@@ -34,7 +35,7 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
         }
 
         SHOP_URL = params.get("url").toString();
-        XeWebLayout myNativeView = new XeWebLayout(activityContext);
+        FlutterCustWebView myNativeView = new FlutterCustWebView(activityContext);
         webView.getWebView(myNativeView, messenger, viewId, params);
         mChannel = new MethodChannel(messenger, "com.xiaoe-tech.xewebview_" + viewId + "");
         mChannel.setMethodCallHandler(this);
@@ -54,8 +55,8 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
         final String method = methodCall.method;
         if ("load".equals(method)) {
-            myNativeView.loadUrl(SHOP_URL);
-            myNativeView.setJsCallBack(new JsBridgeListener() {
+            myNativeView.loadWebUrl(SHOP_URL);
+            myNativeView.setJsBridgeListener(new JsBridgeListener() {
                 @Override
                 public void onJsInteract(int actionType, JsCallbackResponse jsCallbackResponse) {
                     switch (actionType) {
@@ -78,7 +79,7 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                 }
             });
         } else if ("reload".equals(method)) {
-            myNativeView.reload();
+            myNativeView.reloadUrl();
         } else if ("synchronizeToken".equals(method)) {
             String tokenKey = methodCall.argument("token_key");
             String tokenValue = methodCall.argument("token_value");
