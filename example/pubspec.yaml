@@ -17,7 +17,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  fluttertoast: ^2.1.1
+  fluttertoast: ^3.1.3
 
   dio: 3.0.7
 
@@ -67,10 +67,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-  # 发布流程：
-  # 一、命令行翻墙：
-  #set http_proxy=http://127.0.0.1:9666
-  #set https_proxy=https://127.0.0.1:9666
-  # 二、flutter packages pub publish --dry-run检查
-  # 三、flutter packages pub publish 发布
-  #    ①复制命令行中的网址->浏览器验证->登录账号
+

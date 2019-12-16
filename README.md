@@ -7,8 +7,18 @@
 
 ```yaml
 dependencies:
-  xe_shop_sdk: 1.0.0
+  xe_shop_sdk: 1.0.2
 ```
+
+或 Git 依赖
+
+```yaml
+dependencies:
+  xe_shop_sdk:
+    git:
+      url: https://github.com/xiaoeteam/XiaoeAppSDK-Flutter.git
+```
+
 ### [更多使用](https://github.com/xiaoeteam/XiaoeAppSDK-Flutter/wiki "更多使用")
 
 

@@ -4,6 +4,7 @@ class XESDK {
 
   static MethodChannel channel;
 
+  //
   static initConfig(String clientId, String appId,{String scheme}) async {
     channel = new MethodChannel('xe_shop_sdk');
 
@@ -23,6 +24,6 @@ class XESDK {
   }
 
   static isLog(bool isOpen) async {
-      channel.invokeMethod("isLog", {"isLog": isOpen});
+    await channel.invokeMethod("isLog", {"isLog": isOpen});
   }
 }

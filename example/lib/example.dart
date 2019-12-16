@@ -91,7 +91,6 @@ class ExampleState extends State<Example> {
       }
     });
   }
-
   //显示登录弹窗（用户根据自己的业务实现自己的登录功能）
   void showLoginDialog(){
     TextEditingController _userNameController = new TextEditingController();
@@ -129,17 +128,11 @@ class ExampleState extends State<Example> {
                   Response repsonse;
                   Dio dio = new Dio(options);
 
-                  //下面的登录态请求仅作Demo用，建议用户在自己的App后台调用这两个接口，然后App后台给App提供一个登录接口
-                  repsonse = await dio.get("http://api.xiaoe-tech.com/token",
-                      queryParameters: {"app_id": "app38itOR341547",
-                        "secret_key": "ak5JMM6Tt7ktzzPPeNvpCn0EI022HSvJ",
-                        "grant_type": "client_credential"});
-                  Map resultMap = json.decode(repsonse.data.toString());
-                  String accessToken = resultMap["data"]["access_token"];
-
+                  //下面的登录态请求仅作Demo用，建议用户在自己的App后台调用SDK登录两个接口，然后App后台给App提供一个登录接口
                   Response tokenResponse;
-                  tokenResponse = await dio.post("http://api.xiaoe-tech.com/xe.sdk.account.login/1.0.0",
-                      data: {"app_user_id": _userNameController.text.toString(), "access_token": accessToken, "sdk_app_id": "883pzzGyzynE72G"});
+                  tokenResponse = await dio.post("https://app38itOR341547.sdk.xiaoe-tech.com/sdk_api/xe.account.login.test/1.0.0",
+                      data: {"user_id": _userNameController.text.toString(), "app_user_id": _userNameController.text.toString(),
+                      "secret_key": "dfomGwT7JRWWnzY3okZ6yTkHtgNPTyhr", "sdk_app_id": "883pzzGyzynE72G", "app_id": "app38itOR341547"});
                   Map tokenMap = json.decode(tokenResponse.data.toString());
                   print("key:"+tokenMap['data']['token_key']+" val:"+tokenMap['data']['token_value']);
                   XESDK.synchronizeToken(tokenMap['data']['token_key'], tokenMap['data']['token_value']);

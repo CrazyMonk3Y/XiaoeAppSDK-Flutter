@@ -2,7 +2,7 @@ package com.example.xe_shop_sdk
 
 import com.xiaoe.shop.webcore.XEToken
 import com.xiaoe.shop.webcore.XiaoEWeb
-import com.xiaoe.shop.webcore.webview.XeWebLayout
+import com.xiaoe.shop.webcore.webview.FlutterCustWebView
 import io.flutter.app.FlutterActivity
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -22,13 +22,13 @@ class XeShopSdkPlugin(val registrar: Registrar) : MethodCallHandler {
         }
     }
 
-    var xeWebView: XeWebLayout? = null
+    var xeWebView: FlutterCustWebView? = null
     override fun onMethodCall(methodCall: MethodCall, result: Result) {
         when (methodCall.method) {
             "initConfig" -> {
                 val clientId = methodCall.argument<String>("clientId")
                 val appId = methodCall.argument<String>("appId")
-                XiaoEWeb.init(registrar.activity() ,appId, clientId, XiaoEWeb.WebViewType.Android)
+                XiaoEWeb.init(registrar.activity(), appId, clientId, XiaoEWeb.WebViewType.Android)
                 XeWebViewFlutterPlugin.registerWith(registrar.activity() as FlutterActivity) { wv, messenger, id, params ->
                     xeWebView = wv
                 }
