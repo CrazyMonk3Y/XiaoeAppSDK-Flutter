@@ -88,11 +88,11 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         NSString *titleColor = dict[@"titleColor"];
         NSString *backgroundColor = dict[@"backgroundColor"];
         self.title = title;
-        if (titleColor) {
+        if (titleColor.length > 0) {
             self.titleColor = [self colorWithHexString:titleColor];
         }
         
-        if (backgroundColor) {
+        if (backgroundColor.length > 0) {
             self.navViewColor = [self colorWithHexString:backgroundColor];
         }
         
@@ -102,7 +102,7 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 - (UIColor *)colorWithHexString:(NSString *)stringToConvert {
     
     if (stringToConvert.length < 1) {
-        return [UIColor whiteColor];
+        return [UIColor lightGrayColor];
     }
     
     NSScanner *scanner = [NSScanner scannerWithString:stringToConvert];

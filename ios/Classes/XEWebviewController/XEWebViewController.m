@@ -86,7 +86,11 @@
 }
 
  - (void) backBtnAction {
-     [self dismissViewControllerAnimated:YES completion:nil];
+     if (_webView.canGoBack) {
+         [_webView goBack];
+     } else {
+         [self dismissViewControllerAnimated:YES completion:nil];
+     }
  }
 
  - (void) shareBtnAction {
