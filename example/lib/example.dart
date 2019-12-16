@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xe_shop_sdk/xe_shop_sdk.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert' show json;
 
@@ -82,7 +82,7 @@ class ExampleState extends State<Example> {
     setState(() {
       if(type == XEWebViewType.Share){
         //分享弹吐司（这里用户根据自己的业务实现分享功能）
-        Fluttertoast.showToast(msg: data);
+//        Fluttertoast.showToast(msg: data);
       } else if(type == XEWebViewType.Login){
         //拉起登录弹窗（这里用户根据自己的业务实现登录功能）
         showLoginDialog();
@@ -117,7 +117,7 @@ class ExampleState extends State<Example> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   if(_userNameController.text.toString().isEmpty){
-                    Fluttertoast.showToast(msg: "请输入用户名！");
+//                    Fluttertoast.showToast(msg: "请输入用户名！");
                     return;
                   }
                   BaseOptions options = new BaseOptions(
