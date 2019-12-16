@@ -2,4 +2,9 @@
   package="com.example.xe_shop_sdk">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <application>
+        <activity android:name=".XEActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:hardwareAccelerated="true"/>
+    </application>
 </manifest>

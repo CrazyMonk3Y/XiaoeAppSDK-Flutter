@@ -3,6 +3,8 @@ package com.example.xe_shop_sdk;
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
+
+import android.content.Intent;
 import android.view.View;
 import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
@@ -79,7 +81,8 @@ public class XeWebView implements PlatformView, MethodChannel.MethodCallHandler 
                 }
             });
         } else if ("reload".equals(method)) {
-            myNativeView.reloadUrl();
+//            myNativeView.reloadUrl();
+            myNativeView.getContext().startActivity(new Intent(myNativeView.getContext(),XEActivity.class));
         } else if ("synchronizeToken".equals(method)) {
             String tokenKey = methodCall.argument("token_key");
             String tokenValue = methodCall.argument("token_value");
