@@ -25,7 +25,6 @@ class XeShopSdkPlugin(val registrar: Registrar) : MethodCallHandler {
         
         @JvmStatic
         fun registerWith(registrar: Registrar) {
-            //plugin channel
             val channel = MethodChannel(registrar.messenger(), "xe_shop_sdk")
             val xeShopSdkPlugin = XeShopSdkPlugin(registrar)
             channel.setMethodCallHandler(xeShopSdkPlugin)
@@ -62,7 +61,7 @@ class XeShopSdkPlugin(val registrar: Registrar) : MethodCallHandler {
                 XiaoEWeb.init(registrar.activity() ,appId, clientId, XiaoEWeb.WebViewType.X5)
                 XiaoEWeb.isOpenLog(true)
             }
-            "setNavStyle" ->{
+            "setNavStyle" -> {
                 title = methodCall.argument<String>("title").toString()
                 titleColor = methodCall.argument<String>("titleColor").toString()
                 backgroundColor = methodCall.argument<String>("backgroundColor").toString()

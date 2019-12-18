@@ -130,8 +130,8 @@ public class XEActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(mLoginReceiver);
         super.onDestroy();
+        unregisterReceiver(mLoginReceiver);
         xiaoEWeb.webLifeCycle().onDestroy();
     }
 
