@@ -9,8 +9,6 @@ enum XEWebType {
   FinishLoad, // 加载完成
   FailLoad,  // 加载出错
 
-  CanNotGoBack, // webview can not Goback
-
   RequestInputDialog,//仅android拉起输入框事件
 }
 
@@ -107,8 +105,6 @@ class XESDK {
 //   * 501 webview 登录通知
 //   * 503 webview 分享通知
 
-//   * 600 webview can not Goback
-
 //   * 700 webView 弹输入框通知
 //   *
 //   * @param map
@@ -154,9 +150,6 @@ class XESDK {
         break;
       case 503:
         type = XEWebType.Share;
-        break;
-      case 600:
-        type = XEWebType.CanNotGoBack;
         break;
       case 700:
         type = XEWebType.RequestInputDialog;

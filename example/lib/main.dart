@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xe_shop_sdk/xe_shop_sdk.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert' show json;
 
@@ -34,7 +35,6 @@ class WebViewDemoState extends State<WebViewDemo> {
   String url = 'https://apprnDA0ZDw4581.sdk.xiaoe-tech.com';
   String secretKey = "dfomGwT7JRWWnzY3okZ6yTkHtgNPTyhr";
 
-
   @override
   void initState() {
     super.initState();
@@ -50,7 +50,6 @@ class WebViewDemoState extends State<WebViewDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          brightness: Brightness.dark,
           title: Text('XEWebView demo')
       ),
       body: Center(
@@ -80,17 +79,13 @@ class WebViewDemoState extends State<WebViewDemo> {
   }
 
 
-  // SDK 回调
   _callBack(data, type) {
-
     if(type == XEWebType.Share){
       //分享弹吐司（这里用户根据自己的业务实现分享功能）
-      print("分享");
-      print(data);
+      Fluttertoast.showToast(msg: data);
     } else if(type == XEWebType.Login){
       //拉起登录弹窗（这里用户根据自己的业务实现登录功能）
       print("登录");
-      print(data);
       login();
     }
   }
@@ -102,9 +97,7 @@ class WebViewDemoState extends State<WebViewDemo> {
         receiveTimeout: 1000 * 5,
         responseType: ResponseType.plain
     );
-    Response repsonse;
     Dio dio = new Dio(options);
-
     //下面的登录态请求仅作Demo用，建议用户在自己的App后台调用SDK登录两个接口，然后App后台给App提供一个登录接口
     Response tokenResponse;
     tokenResponse = await dio.post("https://app38itOR341547.sdk.xiaoe-tech.com/sdk_api/xe.account.login.test/1.0.0",
@@ -120,5 +113,4 @@ class WebViewDemoState extends State<WebViewDemo> {
     // 同步登录态 token
     XESDK.synchronizeToken(tokenMap['data']['token_key'], tokenMap['data']['token_value']);
   }
-
 }

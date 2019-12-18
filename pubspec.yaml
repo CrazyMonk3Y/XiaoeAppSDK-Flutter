@@ -11,9 +11,6 @@ dependencies:
     sdk: flutter
 
 
-
-
-
 #  json_annotation: ^0.2.3
 
 dev_dependencies:
