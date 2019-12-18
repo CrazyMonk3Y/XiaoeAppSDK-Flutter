@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-export 'src/xe_webview.dart';
 export 'src/xe_sdk.dart';
 
 class XeShopSdk {

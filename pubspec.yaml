@@ -7,11 +7,10 @@ environment:
   sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
-  webview_flutter: ^0.3.16
   flutter:
     sdk: flutter
 
-
+  fluttertoast: ^2.1.1
 
 
 

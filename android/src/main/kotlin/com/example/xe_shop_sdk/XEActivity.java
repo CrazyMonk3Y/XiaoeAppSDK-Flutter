@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,16 +24,10 @@ import com.xiaoe.shop.webcore.bridge.JsInteractType;
 public class XEActivity extends AppCompatActivity {
 
     private XiaoEWeb xiaoEWeb;
-    private String title;
-    private String titleColor;
-    private String backgroundColor;
-    private String tokenKey;
-    private String tokenValue;
+    private LoginReceiver mLoginReceiver;
 
-    private TextView mTitleTv;
-    private TextView mBackTv;
-    private TextView mShareTv;
-    private RelativeLayout mTitleLayout;
+    private ImageView mBackImg;
+    private ImageView mShareImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,35 +37,24 @@ public class XEActivity extends AppCompatActivity {
 
         initView();
         initEvent();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("XE_SDK_SYS_TOKEN");
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String tokenKey = intent.getStringExtra("tokenKey");
-                String tokenValue = intent.getStringExtra("tokenValue");
-                xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
-            }
-        }, intentFilter);
     }
 
     private void initView() {
-
-        mTitleLayout = findViewById(R.id.xe_sdk_title_layout);
-        mTitleTv = findViewById(R.id.xe_sdk_title_tv);
-        mBackTv = findViewById(R.id.xe_sdk_back_tv);
-        mShareTv = findViewById(R.id.xe_sdk_share_tv);
+        RelativeLayout mTitleLayout = findViewById(R.id.xe_sdk_title_layout);
+        TextView mTitleTv = findViewById(R.id.xe_sdk_title_tv);
+        mBackImg = findViewById(R.id.xe_sdk_back_img);
+        mShareImg = findViewById(R.id.xe_sdk_share_img);
 
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
-            title = intent.getStringExtra("title");
-            titleColor = intent.getStringExtra("titleColor");
+            String title = intent.getStringExtra("title");
+            String titleColor = intent.getStringExtra("titleColor");
             mTitleTv.setText(title);
             mTitleTv.setTextColor(Color.parseColor(titleColor));
-            backgroundColor = intent.getStringExtra("backgroundColor");
+
+            String backgroundColor = intent.getStringExtra("backgroundColor");
             mTitleLayout.setBackgroundColor(Color.parseColor(backgroundColor));
-            tokenKey = intent.getStringExtra("tokenKey");
-            tokenValue = intent.getStringExtra("tokenValue");
+
             RelativeLayout webLayout = findViewById(R.id.web_layout);
             xiaoEWeb = XiaoEWeb.with(this)
                     .setWebParent(webLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
@@ -77,20 +62,21 @@ public class XEActivity extends AppCompatActivity {
                     .useDefaultTopIndicator(Color.BLUE)
                     .buildWeb()
                     .loadUrl(intent.getStringExtra("shop_url"));
-
+            String tokenKey = intent.getStringExtra("tokenKey");
+            String tokenValue = intent.getStringExtra("tokenValue");
             xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
         }
     }
 
     private void initEvent() {
-        mBackTv.setOnClickListener(new View.OnClickListener() {
+        mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        mShareTv.setOnClickListener(new View.OnClickListener() {
+        mShareImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 xiaoEWeb.share();
@@ -116,6 +102,23 @@ public class XEActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mLoginReceiver = new LoginReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("XE_SDK_SYS_TOKEN");
+        registerReceiver(mLoginReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        xiaoEWeb.webLifeCycle().onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        xiaoEWeb.webLifeCycle().onPause();
     }
 
     @Override
@@ -123,5 +126,23 @@ public class XEActivity extends AppCompatActivity {
         if (xiaoEWeb.handlerKeyEvent(keyCode, event))
             return true;
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mLoginReceiver);
+        super.onDestroy();
+        xiaoEWeb.webLifeCycle().onDestroy();
+    }
+
+    private class LoginReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String tokenKey = intent.getStringExtra("tokenKey");
+            String tokenValue = intent.getStringExtra("tokenValue");
+            if (!TextUtils.isEmpty(tokenKey) && !TextUtils.isEmpty(tokenValue)) {
+                xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
+            }
+        }
     }
 }
