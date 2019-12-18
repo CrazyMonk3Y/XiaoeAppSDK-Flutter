@@ -59,7 +59,8 @@ class XeShopSdkPlugin(val registrar: Registrar) : MethodCallHandler {
             "initConfig" -> {
                 val clientId = methodCall.argument<String>("clientId")
                 val appId = methodCall.argument<String>("appId")
-                XiaoEWeb.init(registrar.activity() ,appId, clientId, XiaoEWeb.WebViewType.Android)
+                XiaoEWeb.init(registrar.activity() ,appId, clientId, XiaoEWeb.WebViewType.X5)
+                XiaoEWeb.isOpenLog(true)
             }
             "setNavStyle" ->{
                 title = methodCall.argument<String>("title").toString()
