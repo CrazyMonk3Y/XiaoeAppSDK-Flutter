@@ -61,7 +61,7 @@ class WebViewDemoState extends State<WebViewDemo> {
   }
 
   _open() {
-    XESDK.setNavStyle(title: "Demo", titleColor: "#ffffff", backgroundColor: "#2196F3");
+    XESDK.setNavStyle(title: "Demo", titleColor: "#000000", backgroundColor: "#2196F3");
     XESDK.open(url, _callBack);
   }
 

@@ -18,6 +18,15 @@
             android:padding="10dp"
             android:src="@mipmap/xe_sdk_back_icon"/>
 
+        <ImageView
+            android:id="@+id/xe_sdk_close_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/xe_sdk_back_img"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@mipmap/xe_sdk_close_icon"/>
+
         <TextView
             android:id="@+id/xe_sdk_title_tv"
             android:layout_width="wrap_content"

@@ -28,6 +28,7 @@ public class XEActivity extends AppCompatActivity {
 
     private ImageView mBackImg;
     private ImageView mShareImg;
+    private ImageView mCloseImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class XEActivity extends AppCompatActivity {
         TextView mTitleTv = findViewById(R.id.xe_sdk_title_tv);
         mBackImg = findViewById(R.id.xe_sdk_back_img);
         mShareImg = findViewById(R.id.xe_sdk_share_img);
+        mCloseImg = findViewById(R.id.xe_sdk_close_img);
 
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
@@ -72,7 +74,9 @@ public class XEActivity extends AppCompatActivity {
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (!xiaoEWeb.handlerBack()){
+                    finish();
+                }
             }
         });
 
@@ -80,6 +84,13 @@ public class XEActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 xiaoEWeb.share();
+            }
+        });
+
+        mCloseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
