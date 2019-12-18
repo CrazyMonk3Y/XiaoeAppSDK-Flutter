@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'example.dart';
 import 'package:xe_shop_sdk/xe_shop_sdk.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert' show json;
@@ -68,7 +67,7 @@ class WebViewDemoState extends State<WebViewDemo> {
   }
 
   _open() {
-    XESDK.setNavStyle(title: "Demo", titleColor: "0xf23333", backgroundColor: "0x22343f");
+    XESDK.setNavStyle(title: "Demo", titleColor: "#000000", backgroundColor: "#FF4081");
     XESDK.open(url, _callBack);
   }
 
