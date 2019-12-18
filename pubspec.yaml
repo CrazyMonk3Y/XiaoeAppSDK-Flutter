@@ -10,9 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  fluttertoast: ^2.1.1
-
-
 
 #  json_annotation: ^0.2.3
 
