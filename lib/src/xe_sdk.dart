@@ -65,11 +65,36 @@ class XESDK {
   }
 
   // 设置导航标题，背景颜色
-  static setNavStyle({String title, String titleColor, String backgroundColor}) {
+  static setNavStyle({String title, String titleColor, String titleFontSize, String backgroundColor}) {
     channel.invokeMethod("setNavStyle",
         {"title": title,
           "titleColor": titleColor,
-          "backgroundColor": backgroundColor});
+          "backgroundColor": backgroundColor,
+          "titleFontSize": titleFontSize});
+  }
+
+  // 设置返回按钮图片, 请把 Image 放到主工程
+  static setBackButtonImage(String imageName) {
+    if (imageName.isEmpty) {
+      return;
+    }
+    channel.invokeMethod("setBackButtonImage", {"imageName": imageName});
+  }
+
+  // 设置分享按钮图片, 请把 Image 放到主工程
+  static setShareButtonImage(String imageName) {
+    if (imageName.isEmpty) {
+      return;
+    }
+    channel.invokeMethod("setShareButtonImage", {"imageName": imageName});
+  }
+
+  // 设置分享按钮图片, 请把 Image 放到主工程
+  static setCloseButtonImage(String imageName) {
+    if (imageName.isEmpty) {
+      return;
+    }
+    channel.invokeMethod("setCloseButtonImage", {"imageName": imageName});
   }
 
   //  /**

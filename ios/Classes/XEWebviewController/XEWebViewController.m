@@ -13,6 +13,10 @@
 
 @property(nonatomic, strong) XEWebView *webView;
 
+@property(nonatomic, strong) UIButton *backBtn;
+@property(nonatomic, strong) UIButton *closeBtn;
+@property(nonatomic, strong) UIButton *shareBtn;
+
 @end
 
 @implementation XEWebViewController
@@ -22,12 +26,16 @@
     NSLog(@"XEWebViewController dealloc");
     _webView.noticeDelegate = nil;
     _webView.delegate = nil;
+    _webView = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setUp];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shareAction) name:@"webView_share" object:nil];
 }
 
 
@@ -36,35 +44,71 @@
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    int navHeight = 64;
+    CGFloat navHeight = 64;
     if ([UIScreen mainScreen].bounds.size.height >= 812
         && [UIScreen mainScreen].bounds.size.height < 1024) {
         navHeight = 88;
     }
+    
+    CGFloat statusHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
     
     // nav view
     _navView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, navHeight)];
     _navView.backgroundColor = _navViewColor;
     [self.view addSubview:_navView];
     
-    // back button
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 40, 40, 40)];
-    [backBtn setTitle:@"返回" forState: UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(backBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [_navView addSubview:backBtn];
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[XEWebViewController class]];
+    NSString *bundlePath = [bundle pathForResource:@"xe_shop_sdk" ofType:@"bundle"];
+    NSBundle *myBundle = [NSBundle bundleWithPath:bundlePath];
+    
+    NSString *imagePath = [myBundle pathForResource: [self getImageName:@"nav_icon_back"] ofType:@"png"];
+    NSString *shareImagePath = [myBundle pathForResource:[self getImageName:@"nav_icon_share"] ofType:@"png"];
+    NSString *closeImagePath = [myBundle pathForResource:[self getImageName:@"close"] ofType:@"png"];
+    
+    UIImage *backImage = [UIImage imageWithContentsOfFile:imagePath];
+    UIImage *shareImage = [UIImage imageWithContentsOfFile:shareImagePath];
+    UIImage *closeImage = [UIImage imageWithContentsOfFile:closeImagePath];
+    
+    // 读取 MainBundle 图片
+    if (_backImageName.length > 0) {
+        backImage = [UIImage imageNamed:_backImageName];
+    }
+    
+    if (_shareImageName.length > 0) {
+        shareImage = [UIImage imageNamed:_shareImageName];
+    }
+    
+    if (_closeImageName.length > 0) {
+        closeImage = [UIImage imageNamed:_closeImageName];
+    }
     
     // back button
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 15 - 40,  40, 40, 40)];
-    [shareBtn setTitle:@"分享" forState: UIControlStateNormal];
-    [shareBtn addTarget:self action:@selector(shareBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [_navView addSubview:shareBtn];
+    _backBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, statusHeight, 44, 44)];
+    _backBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_backBtn setImage:backImage forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(backBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [_navView addSubview:_backBtn];
+    
+    _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(15 + 44, statusHeight, 44, 44)];
+    _closeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [_closeBtn setImage:closeImage forState:UIControlStateNormal];
+    [_closeBtn addTarget:self action:@selector(closeBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [_navView addSubview:_closeBtn];
+    
+    // share button
+    _shareBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 15 - 44,  statusHeight, 44, 44)];
+    _shareBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [_shareBtn setImage:shareImage forState:UIControlStateNormal];
+    [_shareBtn addTarget:self action:@selector(shareBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [_navView addSubview:_shareBtn];
     
     // title
     UILabel *title = [[UILabel alloc] init];
     title.textAlignment = NSTextAlignmentCenter;
     title.text = self.navTitle;
     title.textColor = _titleColor;
-    title.frame = CGRectMake(80, 40, [[UIScreen mainScreen] bounds].size.width - 160, 40);
+    title.frame = CGRectMake(80, statusHeight, [[UIScreen mainScreen] bounds].size.width - 160, 44);
     [_navView addSubview:title];
     
     CGRect webFrame = CGRectMake(0, navHeight, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - navHeight);
@@ -81,17 +125,37 @@
     [_webView loadRequest:request];
 }
 
+-(NSString *)getImageName:(NSString *)imageName {
+    
+    NSString *name = imageName;
+    if (UIScreen.mainScreen.scale == 2.0) {
+        name = [[NSString alloc] initWithFormat:@"%@@2x", imageName];
+    } else if (UIScreen.mainScreen.scale == 3.0) {
+        name = [[NSString alloc] initWithFormat:@"%@@3x", imageName];
+    }
+    
+    return name;
+}
+
 - (UIModalPresentationStyle)modalPresentationStyle {
     return UIModalPresentationFullScreen;
 }
 
- - (void) backBtnAction {
+- (void)shareAction {
+    [_webView share];
+}
+
+- (void) backBtnAction {
      if (_webView.canGoBack) {
          [_webView goBack];
      } else {
          [self dismissViewControllerAnimated:YES completion:nil];
      }
- }
+}
+
+- (void) closeBtnAction {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
  - (void) shareBtnAction {
      [_webView share];
@@ -99,8 +163,9 @@
 
  -(void) messagePost:(NSDictionary *)dict{
      
+     __weak __typeof__(self) weakSelf = self;
      dispatch_async(dispatch_get_main_queue(), ^{
-         [self.channel invokeMethod:@"ios" arguments:dict];
+         [weakSelf.channel invokeMethod:@"ios" arguments:dict];
      });
  }
 

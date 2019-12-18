@@ -8,17 +8,19 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 
 @interface XeShopSdkPlugin()
 
-@property(nonatomic, strong) XEWebViewController *XEWebViewVC;
+//@property(nonatomic, strong) XEWebViewController *XEWebViewVC;
 @property(nonatomic, strong) NSString *title;
 @property(nonatomic, weak) UIColor *titleColor;
 @property(nonatomic, weak) UIColor *navViewColor;
 
+// 图标
+@property(nonatomic, copy) NSString *backImageName;
+@property(nonatomic, copy) NSString *shareImageName;
+@property(nonatomic, copy) NSString *closeImageName;
+
 @end
 
-@implementation XeShopSdkPlugin {
-    XEWebView * _webView;
-    
-}
+@implementation XeShopSdkPlugin
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     
@@ -64,45 +66,61 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         
         NSDictionary *dict = call.arguments;
         NSString *url = dict[@"url"];
-        
+                
         // 初始化 webview
-        if (_XEWebViewVC == nil) {
-            _XEWebViewVC = [[XEWebViewController alloc] init];
-        }
-        
+        XEWebViewController *_XEWebViewVC = [[XEWebViewController alloc] init];
         _XEWebViewVC.url = url;
         _XEWebViewVC.channel = channel;
         _XEWebViewVC.navTitle = _title;
         _XEWebViewVC.titleColor = _titleColor;
         _XEWebViewVC.navViewColor = _navViewColor;
+        _XEWebViewVC.backImageName = _backImageName;
+        _XEWebViewVC.shareImageName = _shareImageName;
+        _XEWebViewVC.closeImageName = _closeImageName;
+                
         _XEWebViewVC.modalPresentationStyle = UIModalPresentationFullScreen;
         
         UIViewController *vc = UIApplication.sharedApplication.keyWindow.rootViewController;
         [vc presentViewController:_XEWebViewVC animated: YES completion:nil];
+//        _backImageName = nil;
+//        _shareImageName = nil;
+//        _closeImageName = nil;
+//        _titleColor = nil;
+//        _navViewColor = nil;
+//        _title = nil;
         
     } else if ([call.method isEqualToString: @"share"]) {
-        [_webView share];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"webView_share" object:nil];
     } else if ([call.method isEqualToString: @"setNavStyle"]) {
         NSDictionary *dict = call.arguments;
         NSString *title = dict[@"title"];
         NSString *titleColor = dict[@"titleColor"];
         NSString *backgroundColor = dict[@"backgroundColor"];
+        
         self.title = title;
-        if (titleColor.length > 0) {
-            self.titleColor = [self colorWithHexString:titleColor];
-        }
+        self.titleColor = [self colorWithHexString:titleColor];
+        self.navViewColor = [self colorWithHexString:backgroundColor];
         
-        if (backgroundColor.length > 0) {
-            self.navViewColor = [self colorWithHexString:backgroundColor];
-        }
-        
+    } else if ([call.method isEqualToString: @"setBackButtonImage"]) {
+        NSDictionary *dict = call.arguments;
+        _backImageName = dict[@"imageName"];
+    } else if ([call.method isEqualToString: @"setShareButtonImage"]) {
+        NSDictionary *dict = call.arguments;
+        _shareImageName = dict[@"imageName"];
+    } else if ([call.method isEqualToString: @"setCloseButtonImage"]) {
+        NSDictionary *dict = call.arguments;
+        _closeImageName = dict[@"imageName"];
     }
 }
 
 - (UIColor *)colorWithHexString:(NSString *)stringToConvert {
     
+    if ([stringToConvert isEqual:[NSNull null]]) {
+        return [UIColor blackColor];
+    }
+    
     if (stringToConvert.length < 1) {
-        return [UIColor lightGrayColor];
+        return [UIColor blackColor];
     }
     
     NSScanner *scanner = [NSScanner scannerWithString:stringToConvert];

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'example.dart';
+import 'package:flutter/services.dart';
 import 'package:xe_shop_sdk/xe_shop_sdk.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert' show json;
 
 void main() => runApp(
     MyApp()
+
 );
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -36,7 +38,11 @@ class WebViewDemoState extends State<WebViewDemo> {
   @override
   void initState() {
     super.initState();
+
+    // 初始化 SDK
     XESDK.initConfig(clientId, appId);
+
+    // 获取 token
     login();
   }
 
@@ -44,12 +50,7 @@ class WebViewDemoState extends State<WebViewDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios),
-          ),
+          brightness: Brightness.dark,
           title: Text('XEWebView demo')
       ),
       body: Center(
@@ -68,11 +69,18 @@ class WebViewDemoState extends State<WebViewDemo> {
   }
 
   _open() {
-    XESDK.setNavStyle(title: "Demo", titleColor: "0xf23333", backgroundColor: "0x22343f");
+
+    // 设置导航样式
+    XESDK.setNavStyle(title: "Demo", titleColor: "Ox000000", backgroundColor: "0xFBFBFD");
+
+    XESDK.setShareButtonImage("share");
+
+    // 打开 SDK WebView
     XESDK.open(url, _callBack);
   }
 
 
+  // SDK 回调
   _callBack(data, type) {
 
     if(type == XEWebType.Share){
@@ -87,7 +95,7 @@ class WebViewDemoState extends State<WebViewDemo> {
     }
   }
 
-  //显示登录弹窗（用户根据自己的业务实现自己的登录功能）
+  // 获取 token
   void login() async {
     BaseOptions options = new BaseOptions(
         connectTimeout: 1000 * 10,
@@ -100,13 +108,17 @@ class WebViewDemoState extends State<WebViewDemo> {
     //下面的登录态请求仅作Demo用，建议用户在自己的App后台调用SDK登录两个接口，然后App后台给App提供一个登录接口
     Response tokenResponse;
     tokenResponse = await dio.post("https://app38itOR341547.sdk.xiaoe-tech.com/sdk_api/xe.account.login.test/1.0.0",
-        data: {"user_id": "123", "app_user_id": "123",
-          "secret_key": secretKey, "sdk_app_id": clientId, "app_id": appId});
+        data: {"user_id": "123",
+          "app_user_id": "123",
+          "secret_key": secretKey,
+          "sdk_app_id": clientId,
+          "app_id": appId});
     Map tokenMap = json.decode(tokenResponse.data.toString());
     print("token");
     print(tokenMap);
+
+    // 同步登录态 token
     XESDK.synchronizeToken(tokenMap['data']['token_key'], tokenMap['data']['token_value']);
   }
-
 
 }

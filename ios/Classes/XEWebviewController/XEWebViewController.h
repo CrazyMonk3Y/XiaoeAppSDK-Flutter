@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) UIColor *titleColor;
 @property(nonatomic, weak) UIColor *navViewColor;
 
+// 图标
+@property(nonatomic, copy) NSString *backImageName;
+@property(nonatomic, copy) NSString *shareImageName;
+@property(nonatomic, copy) NSString *closeImageName;
+
 @end
 
 NS_ASSUME_NONNULL_END

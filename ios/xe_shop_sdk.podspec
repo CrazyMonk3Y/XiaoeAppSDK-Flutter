@@ -1,6 +1,3 @@
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
 Pod::Spec.new do |s|
   s.name             = 'xe_shop_sdk'
   s.version          = '0.0.1'
@@ -15,6 +12,8 @@ A new flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
+  
+  s.resources = "Assets/**/*.{bundle}"
   
   s.frameworks   = 'WebKit', 'UIKit', 'Foundation'
   s.vendored_frameworks = 'Framework/**/*.framework'
