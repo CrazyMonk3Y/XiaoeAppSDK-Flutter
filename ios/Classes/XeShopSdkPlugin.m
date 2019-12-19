@@ -1,5 +1,4 @@
 #import "XeShopSdkPlugin.h"
-#import "XEWebViewFactory.h"
 #import <XEShopSDK/XEShopSDK.h>
 #import "XEWebViewController.h"
 
@@ -8,7 +7,6 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 
 @interface XeShopSdkPlugin()
 
-//@property(nonatomic, strong) XEWebViewController *XEWebViewVC;
 @property(nonatomic, copy) NSString *title;
 @property(nonatomic, strong) UIColor *titleColor;
 @property(nonatomic, strong) UIColor *navViewColor;
