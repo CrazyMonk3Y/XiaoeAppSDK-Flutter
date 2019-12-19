@@ -127,10 +127,8 @@
 
 -(NSString *)getImageName:(NSString *)imageName {
     
-    NSString *name = imageName;
-    if (UIScreen.mainScreen.scale == 2.0) {
-        name = [[NSString alloc] initWithFormat:@"%@@2x", imageName];
-    } else if (UIScreen.mainScreen.scale == 3.0) {
+    NSString *name = [[NSString alloc] initWithFormat:@"%@@2x", imageName];
+    if (UIScreen.mainScreen.scale == 3.0) {
         name = [[NSString alloc] initWithFormat:@"%@@3x", imageName];
     }
     
