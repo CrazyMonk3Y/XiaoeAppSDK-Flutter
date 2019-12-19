@@ -62,7 +62,7 @@ class XESDK {
     await channel.invokeMethod("share");
   }
 
-  // 设置导航标题，背景颜色
+  // 设置导航标题，背景颜色, 颜色16进制字符串（可以以#开头，例：#FFFFFF）
   static setNavStyle({String title, String titleColor, String titleFontSize, String backgroundColor}) {
     channel.invokeMethod("setNavStyle",
         {"title": title,

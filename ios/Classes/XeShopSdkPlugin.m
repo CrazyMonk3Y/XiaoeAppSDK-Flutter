@@ -9,9 +9,9 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 @interface XeShopSdkPlugin()
 
 //@property(nonatomic, strong) XEWebViewController *XEWebViewVC;
-@property(nonatomic, strong) NSString *title;
-@property(nonatomic, weak) UIColor *titleColor;
-@property(nonatomic, weak) UIColor *navViewColor;
+@property(nonatomic, copy) NSString *title;
+@property(nonatomic, strong) UIColor *titleColor;
+@property(nonatomic, strong) UIColor *navViewColor;
 
 // 图标
 @property(nonatomic, copy) NSString *backImageName;
@@ -82,12 +82,6 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         
         UIViewController *vc = UIApplication.sharedApplication.keyWindow.rootViewController;
         [vc presentViewController:_XEWebViewVC animated: YES completion:nil];
-//        _backImageName = nil;
-//        _shareImageName = nil;
-//        _closeImageName = nil;
-//        _titleColor = nil;
-//        _navViewColor = nil;
-//        _title = nil;
         
     } else if ([call.method isEqualToString: @"share"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"webView_share" object:nil];
@@ -98,8 +92,8 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         NSString *backgroundColor = dict[@"backgroundColor"];
         
         self.title = title;
-        self.titleColor = [self colorWithHexString:titleColor];
-        self.navViewColor = [self colorWithHexString:backgroundColor];
+        self.titleColor = [self colorWithHexString:titleColor alpha:1.0];
+        self.navViewColor = [self colorWithHexString:backgroundColor alpha:1.0];
         
     } else if ([call.method isEqualToString: @"setBackButtonImage"]) {
         NSDictionary *dict = call.arguments;
@@ -113,31 +107,47 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
     }
 }
 
-- (UIColor *)colorWithHexString:(NSString *)stringToConvert {
-    
-    if ([stringToConvert isEqual:[NSNull null]]) {
-        return [UIColor blackColor];
-    }
-    
-    if (stringToConvert.length < 1) {
-        return [UIColor blackColor];
-    }
-    
-    NSScanner *scanner = [NSScanner scannerWithString:stringToConvert];
-    unsigned hexNum;
-    if (![scanner scanHexInt:&hexNum]) return nil;
-    return [self colorWithRGBHex:hexNum];
-}
+/**
+16进制颜色转换为UIColor
 
-- (UIColor *)colorWithRGBHex:(UInt32)hex {
-    int r = (hex >> 16) & 0xFF;
-    int g = (hex >> 8) & 0xFF;
-    int b = (hex) & 0xFF;
-    
-    return [UIColor colorWithRed:r / 255.0f
-                           green:g / 255.0f
-                            blue:b / 255.0f
-                           alpha:1.0f];
+@param hexColor 16进制字符串（可以以0x开头，可以以#开头，也可以就是6位的16进制）
+@param opacity 透明度
+@return 16进制字符串对应的颜色
+*/
+- (UIColor *)colorWithHexString:(NSString *)hexColor alpha:(float)opacity{
+    NSString * cString = [[hexColor stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+
+    // String should be 6 or 8 characters
+    if ([cString length] < 6) return [UIColor blackColor];
+
+    // strip 0X if it appears
+    if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
+    if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
+
+    if ([cString length] != 6) return [UIColor blackColor];
+
+    // Separate into r, g, b substrings
+    NSRange range;
+    range.location = 0;
+    range.length = 2;
+    NSString * rString = [cString substringWithRange:range];
+
+    range.location = 2;
+    NSString * gString = [cString substringWithRange:range];
+
+    range.location = 4;
+    NSString * bString = [cString substringWithRange:range];
+
+    // Scan values
+    unsigned int r, g, b;
+    [[NSScanner scannerWithString:rString] scanHexInt:&r];
+    [[NSScanner scannerWithString:gString] scanHexInt:&g];
+    [[NSScanner scannerWithString:bString] scanHexInt:&b];
+
+    return [UIColor colorWithRed:((float)r / 255.0f)
+                           green:((float)g / 255.0f)
+                            blue:((float)b / 255.0f)
+                           alpha:opacity];
 }
 
 

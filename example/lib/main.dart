@@ -7,17 +7,14 @@ import 'dart:convert' show json;
 
 void main() => runApp(
     MyApp()
-
 );
 
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: WebViewDemo(),
     );
   }
@@ -48,6 +45,7 @@ class WebViewDemoState extends State<WebViewDemo> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
       appBar: AppBar(
           title: Text('XEWebView demo')
@@ -73,7 +71,6 @@ class WebViewDemoState extends State<WebViewDemo> {
     XESDK.setNavStyle(title: "Demo", titleColor: "Ox000000", backgroundColor: "0xFBFBFD");
 
     XESDK.setShareButtonImage("share");
-
     // 打开 SDK WebView
     XESDK.open(url, _callBack);
   }
