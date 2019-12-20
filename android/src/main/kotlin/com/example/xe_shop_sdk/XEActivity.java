@@ -4,7 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -14,7 +18,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.xiaoe.shop.webcore.XEToken;
 import com.xiaoe.shop.webcore.XiaoEWeb;
 import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
@@ -44,18 +51,65 @@ public class XEActivity extends AppCompatActivity {
         RelativeLayout mTitleLayout = findViewById(R.id.xe_sdk_title_layout);
         TextView mTitleTv = findViewById(R.id.xe_sdk_title_tv);
         mBackImg = findViewById(R.id.xe_sdk_back_img);
-        mShareImg = findViewById(R.id.xe_sdk_share_img);
         mCloseImg = findViewById(R.id.xe_sdk_close_img);
+        mShareImg = findViewById(R.id.xe_sdk_share_img);
 
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
+
             String title = intent.getStringExtra("title");
+            if (title != null)
+                mTitleTv.setText(title);
+
+            int titleFontSize = intent.getIntExtra("titleFontSize", 17);
+            mTitleTv.setTextSize(titleFontSize);
+
             String titleColor = intent.getStringExtra("titleColor");
-            mTitleTv.setText(title);
-            mTitleTv.setTextColor(Color.parseColor(titleColor));
+            if (titleColor != null)
+                mTitleTv.setTextColor(Color.parseColor(titleColor));
 
             String backgroundColor = intent.getStringExtra("backgroundColor");
-            mTitleLayout.setBackgroundColor(Color.parseColor(backgroundColor));
+            if (backgroundColor != null)
+                mTitleLayout.setBackgroundColor(Color.parseColor(backgroundColor));
+
+            String backIconImageName = intent.getStringExtra("backIconImageName");
+            if (backIconImageName != null) {
+                Bitmap sdkBackIcon = zoomImg(backIconImageName);
+                if (sdkBackIcon != null) {
+                    mBackImg.setImageBitmap(sdkBackIcon);
+                } else {
+                    mBackImg.setImageResource(R.mipmap.xe_sdk_back_icon);
+                }
+            }
+            else{
+                mBackImg.setImageResource(R.mipmap.xe_sdk_back_icon);
+            }
+
+            String closeIconImageName = intent.getStringExtra("closeIconImageName");
+            if (closeIconImageName != null) {
+                Bitmap sdkCloseIcon = zoomImg(closeIconImageName);
+                if (sdkCloseIcon != null) {
+                    mCloseImg.setImageBitmap(sdkCloseIcon);
+                } else {
+                    mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
+                }
+            }
+            else{
+                mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
+            }
+
+            String shareIconImageName = intent.getStringExtra("shareIconImageName");
+            if (shareIconImageName != null) {
+                Bitmap sdkShareIcon = zoomImg(shareIconImageName);
+                if (sdkShareIcon != null) {
+                    mShareImg.setImageBitmap(sdkShareIcon);
+                } else {
+                    mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
+                }
+            }
+            else{
+                mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
+            }
 
             RelativeLayout webLayout = findViewById(R.id.web_layout);
             xiaoEWeb = XiaoEWeb.with(this)
@@ -74,7 +128,7 @@ public class XEActivity extends AppCompatActivity {
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!xiaoEWeb.handlerBack()){
+                if (!xiaoEWeb.handlerBack()) {
                     finish();
                 }
             }
@@ -146,7 +200,7 @@ public class XEActivity extends AppCompatActivity {
         xiaoEWeb.webLifeCycle().onDestroy();
     }
 
-    private class LoginReceiver extends BroadcastReceiver{
+    private class LoginReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String tokenKey = intent.getStringExtra("tokenKey");
@@ -154,6 +208,30 @@ public class XEActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(tokenKey) && !TextUtils.isEmpty(tokenValue)) {
                 xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
             }
+        }
+    }
+
+    int dpToPx(int dps) {
+        return Math.round(getResources().getDisplayMetrics().density * dps);
+    }
+
+    public Bitmap zoomImg(String fileName) {
+        try {
+            float targetSize = (float) dpToPx(17);
+            Bitmap bm = BitmapFactory.decodeStream(getAssets().open("flutter_assets/images/android/" + fileName + ".png"));
+            // 获得图片的宽高
+            int width = bm.getWidth();
+            int height = bm.getHeight();
+            // 计算缩放比例
+            float scaleWidth = targetSize / width;
+            float scaleHeight = targetSize / height;
+            // 取得想要缩放的matrix参数
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+            // 得到新的图片
+            return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

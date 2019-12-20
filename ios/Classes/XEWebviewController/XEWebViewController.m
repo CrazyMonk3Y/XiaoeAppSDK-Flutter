@@ -85,7 +85,7 @@
     }
     
     if (_closeImageName.length > 0) {
-        closeImage = [UIImage imageNamed:_closeImageName];
+        closeImage = [self getImage:_closeImageName];
     }
     
     // back button
@@ -139,16 +139,21 @@
 }
 
 - (UIImage *)getImage:(NSString *)imageName {
+    
     NSString *name = [[NSString alloc] initWithFormat:@"Frameworks/App.framework/flutter_assets/images/ios/%@",[self getImageName:imageName]];
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:name ofType:@"png"];
-            
     return [UIImage imageWithContentsOfFile:imagePath];
 }
+
 
 -(NSString *)getImageName:(NSString *)imageName {
     
     NSString *name = [[NSString alloc] initWithFormat:@"%@@2x", imageName];
-    if (UIScreen.mainScreen.scale == 3.0) {
+    if (UIScreen.mainScreen.scale == 1.0) {
+        name = [[NSString alloc] initWithFormat:@"%@", imageName];
+    } else if (UIScreen.mainScreen.scale == 2.0) {
+        name = [[NSString alloc] initWithFormat:@"%@@2x", imageName];
+    } else if (UIScreen.mainScreen.scale == 3.0) {
         name = [[NSString alloc] initWithFormat:@"%@@3x", imageName];
     }
     
@@ -259,5 +264,45 @@
      [self messagePost:dict];
  }
 
+/**
+ 对文件重命名
+
+ @param filePath 旧路径
+ @return 新路径
+ */
+- (NSString *)p_setupFileRename:(NSString *)filePath {
+    
+    NSString *lastPathComponent = [NSString new];
+    //获取文件名： 视频.MP4
+    lastPathComponent = [filePath lastPathComponent];
+    //获取后缀：MP4
+    NSString *pathExtension = [filePath pathExtension];
+    //用传过来的路径创建新路径 首先去除文件名
+    NSString *pathNew = [filePath stringByReplacingOccurrencesOfString:lastPathComponent withString:@""];
+    //然后拼接新文件名：新文件名为当前的：年月日时分秒 yyyyMMddHHmmss
+    NSString *moveToPath = [NSString stringWithFormat:@"%@%@.%@",pathNew,[self htmi_getCurrentTime],pathExtension];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    //通过移动该文件对文件重命名
+    BOOL isSuccess = [fileManager moveItemAtPath:filePath toPath:moveToPath error:nil];
+    if (isSuccess) {
+        NSLog(@"rename success");
+    }else{
+        NSLog(@"rename fail");
+    }
+    
+    return moveToPath;
+}
+
+/**
+ 获取当地时间
+ 
+ @return 获取当地时间
+ */
+- (NSString *)htmi_getCurrentTime {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+    return dateTime;
+}
 
 @end

@@ -37,10 +37,17 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/Share@2x.png
-    - lib/Share@3x.png
+    - images/android/xe_sdk_back_icon.png
+    - images/android/xe_sdk_close_icon.png
+    - images/android/xe_sdk_share_icon.png
+    - images/ios/xe_sdk_close_icon@2x.png
+    - images/ios/xe_sdk_share_icon@2x.png
+    - images/ios/xe_sdk_back_icon@2x.png
+    - images/ios/xe_sdk_close_icon@3x.png
+    - images/ios/xe_sdk_share_icon@3x.png
+    - images/ios/xe_sdk_back_icon@3x.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

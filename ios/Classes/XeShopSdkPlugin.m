@@ -2,6 +2,7 @@
 #import <XEShopSDK/XEShopSDK.h>
 #import "XEWebViewController.h"
 
+#define NSNull2Nil(_x_) if([_x_ isKindOfClass: NSNull.class]) _x_ = nil;
 
 static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 
@@ -10,6 +11,7 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 @property(nonatomic, copy) NSString *title;
 @property(nonatomic, strong) UIColor *titleColor;
 @property(nonatomic, strong) UIColor *navViewColor;
+@property(nonatomic, assign) CGFloat titleFontSize;
 
 // 图标
 @property(nonatomic, copy) NSString *backImageName;
@@ -40,6 +42,10 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         NSString *appId = dict[@"appId"];
         NSString *scheme = dict[@"scheme"];
         
+        NSNull2Nil(clientId);
+        NSNull2Nil(appId);
+        NSNull2Nil(scheme);
+        
         XEConfig *config = [[XEConfig alloc] initWithClientId: clientId appId: appId];
         config.scheme = scheme;
         [XESDK.shared initializeSDKWithConfig:config];
@@ -47,10 +53,11 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
     } else if ([call.method isEqualToString: @"synchronizeToken"]) {
         
         // MARK: 同步登录态
-        // 参数
         NSDictionary *dict = call.arguments;
         NSString *token_key = dict[@"token_key"];
         NSString *token_value = dict[@"token_value"];
+        NSNull2Nil(token_key);
+        NSNull2Nil(token_value);
         
         [XESDK.shared synchronizeCookieKey:token_key cookieValue:token_value];
     } else if ([call.method isEqualToString: @"getSdkVersion"]) {
@@ -64,7 +71,7 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         
         NSDictionary *dict = call.arguments;
         NSString *url = dict[@"url"];
-                
+        NSNull2Nil(url);
         // 初始化 webview
         XEWebViewController *_XEWebViewVC = [[XEWebViewController alloc] init];
         _XEWebViewVC.url = url;
@@ -85,25 +92,41 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         [[NSNotificationCenter defaultCenter] postNotificationName:@"webView_share" object:nil];
     } else if ([call.method isEqualToString: @"setNavStyle"]) {
         NSDictionary *dict = call.arguments;
-        NSString *title = dict[@"title"];
+        
         NSString *titleColor = dict[@"titleColor"];
+        id titleFontSize = dict[@"titleFontSize"];
         NSString *backgroundColor = dict[@"backgroundColor"];
         
-        self.title = title;
-        self.titleColor = [self colorWithHexString:titleColor alpha:1.0];
-        self.navViewColor = [self colorWithHexString:backgroundColor alpha:1.0];
+        NSString *backIconImageName = dict[@"backIconImageName"];
+        NSString *closeIconImageName = dict[@"closeIconImageName"];
+        NSString *shareIconImageName = dict[@"shareIconImageName"];
         
-    } else if ([call.method isEqualToString: @"setBackButtonImage"]) {
+        NSNull2Nil(titleColor);
+        NSNull2Nil(titleFontSize);
+        NSNull2Nil(backgroundColor);
+        
+        NSNull2Nil(backIconImageName);
+        NSNull2Nil(closeIconImageName);
+        NSNull2Nil(shareIconImageName);
+        
+        self.titleColor = [self colorWithHexString:titleColor alpha:1.0];
+        if (titleFontSize) {
+            self.titleFontSize = [titleFontSize doubleValue];
+        }
+        self.navViewColor = [self colorWithHexString:backgroundColor alpha:1.0];
+
+        _backImageName = backIconImageName;
+        _closeImageName = closeIconImageName;
+        _shareImageName = shareIconImageName;
+        
+    } else if ([call.method isEqualToString: @"setTitle"]) {
         NSDictionary *dict = call.arguments;
-        _backImageName = dict[@"imageName"];
-    } else if ([call.method isEqualToString: @"setShareButtonImage"]) {
-        NSDictionary *dict = call.arguments;
-        _shareImageName = dict[@"imageName"];
-    } else if ([call.method isEqualToString: @"setCloseButtonImage"]) {
-        NSDictionary *dict = call.arguments;
-        _closeImageName = dict[@"imageName"];
+        NSString *title = dict[@"title"];
+        NSNull2Nil(title);
+        self.title = title;
     }
 }
+
 
 /**
 16进制颜色转换为UIColor
@@ -113,16 +136,19 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
 @return 16进制字符串对应的颜色
 */
 - (UIColor *)colorWithHexString:(NSString *)hexColor alpha:(float)opacity{
+    
+    if (hexColor == nil) return nil;
+    
     NSString * cString = [[hexColor stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
 
     // String should be 6 or 8 characters
-    if ([cString length] < 6) return [UIColor blackColor];
+    if ([cString length] < 6) return nil;
 
     // strip 0X if it appears
     if ([cString hasPrefix:@"0X"]) cString = [cString substringFromIndex:2];
     if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
 
-    if ([cString length] != 6) return [UIColor blackColor];
+    if ([cString length] != 6) return nil;
 
     // Separate into r, g, b substrings
     NSRange range;
