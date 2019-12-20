@@ -10,7 +10,7 @@
 
 ```yaml
 dependencies:
-  xe_shop_sdk: x.x.x//最新版本号见上方
+  xe_shop_sdk: 1.0.4//最新版本号见上方
 ```
 
 或 Git 依赖
