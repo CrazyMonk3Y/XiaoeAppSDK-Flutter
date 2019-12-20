@@ -58,10 +58,6 @@ class XESDK {
     nativeMessageListener();
   }
 
-  static share() async {
-    await channel.invokeMethod("share");
-  }
-
   // 设置导航标题
   static setTitle(String title){
     channel.invokeMethod("setTitle", {"title": title});

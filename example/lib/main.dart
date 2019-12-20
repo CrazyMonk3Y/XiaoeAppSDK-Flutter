@@ -73,7 +73,7 @@ class WebViewDemoState extends State<WebViewDemo> {
 
     XESDK.setNavStyle(
         titleColor: "#000000",
-        titleFontSize:14,
+        titleFontSize:30,
         backgroundColor: "#FBFBFD",
         backIconImageName: "xe_sdk_back_icon",
         closeIconImageName: "xe_sdk_close_icon",

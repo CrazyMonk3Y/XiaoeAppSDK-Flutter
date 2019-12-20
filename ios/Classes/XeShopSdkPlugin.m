@@ -88,8 +88,6 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         UIViewController *vc = [self frontWindow].rootViewController;
         [vc presentViewController:_XEWebViewVC animated: YES completion:nil];
         
-    } else if ([call.method isEqualToString: @"share"]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"webView_share" object:nil];
     } else if ([call.method isEqualToString: @"setNavStyle"]) {
         NSDictionary *dict = call.arguments;
         

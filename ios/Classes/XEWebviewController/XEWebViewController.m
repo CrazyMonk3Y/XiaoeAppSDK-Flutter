@@ -30,14 +30,12 @@
     _webView.delegate = nil;
     _webView = nil;
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setUp];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shareAction) name:@"webView_share" object:nil];
 }
 
 
@@ -164,9 +162,6 @@
     return UIModalPresentationFullScreen;
 }
 
-- (void)shareAction {
-    [_webView share];
-}
 
 - (void) backBtnAction {
      if (_webView.canGoBack) {
@@ -180,17 +175,17 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
- - (void) shareBtnAction {
-     [_webView share];
- }
+- (void) shareBtnAction {
+    [_webView share];
+}
 
- -(void) messagePost:(NSDictionary *)dict{
+-(void) messagePost:(NSDictionary *)dict{
      
      __weak __typeof__(self) weakSelf = self;
      dispatch_async(dispatch_get_main_queue(), ^{
          [weakSelf.channel invokeMethod:@"ios" arguments:dict];
-     });
- }
+    });
+}
 
  #pragma mark - XEWebViewNotice Delegate
 
