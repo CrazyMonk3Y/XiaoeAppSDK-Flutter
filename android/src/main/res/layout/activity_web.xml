@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:src="@mipmap/xe_sdk_back_icon"/>
+            tools:src="@mipmap/xe_sdk_back_icon"/>
 
         <ImageView
             android:id="@+id/xe_sdk_close_img"
@@ -25,7 +26,7 @@
             android:layout_toEndOf="@+id/xe_sdk_back_img"
             android:layout_centerVertical="true"
             android:padding="10dp"
-            android:src="@mipmap/xe_sdk_close_icon"/>
+            tools:src="@mipmap/xe_sdk_close_icon"/>
 
         <TextView
             android:id="@+id/xe_sdk_title_tv"
@@ -43,7 +44,7 @@
             android:padding="10dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/xe_sdk_share_icon"/>
+            tools:src="@mipmap/xe_sdk_share_icon"/>
 
     </RelativeLayout>
 

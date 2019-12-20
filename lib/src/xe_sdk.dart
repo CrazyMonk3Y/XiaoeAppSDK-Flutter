@@ -62,38 +62,31 @@ class XESDK {
     await channel.invokeMethod("share");
   }
 
+  // 设置导航标题
+  static setTitle(String title){
+    channel.invokeMethod("setTitle", {"title": title});
+  }
+
   // 设置导航标题，背景颜色, 颜色16进制字符串（可以以#开头，例：#FFFFFF）
-  static setNavStyle({String title, String titleColor, String titleFontSize, String backgroundColor}) {
+  static setNavStyle({
+    String titleColor,
+    int titleFontSize,
+    String backgroundColor,
+    String backIconImageName,
+    String closeIconImageName,
+    String shareIconImageName
+  }) {
     channel.invokeMethod("setNavStyle",
-        {"title": title,
+        {
           "titleColor": titleColor,
+          "titleFontSize": titleFontSize,
           "backgroundColor": backgroundColor,
-          "titleFontSize": titleFontSize});
+          "backIconImageName": backIconImageName,
+          "closeIconImageName": closeIconImageName,
+          "shareIconImageName": shareIconImageName,
+        });
   }
 
-  // 设置返回按钮图片, 请把 Image 放到主工程
-  static setBackButtonImage(String imageName) {
-    if (imageName.isEmpty) {
-      return;
-    }
-    channel.invokeMethod("setBackButtonImage", {"imageName": imageName});
-  }
-
-  // 设置分享按钮图片, 请把 Image 放到主工程
-  static setShareButtonImage(String imageName) {
-    if (imageName.isEmpty) {
-      return;
-    }
-    channel.invokeMethod("setShareButtonImage", {"imageName": imageName});
-  }
-
-  // 设置分享按钮图片, 请把 Image 放到主工程
-  static setCloseButtonImage(String imageName) {
-    if (imageName.isEmpty) {
-      return;
-    }
-    channel.invokeMethod("setCloseButtonImage", {"imageName": imageName});
-  }
 
   //  /**
 //   * 设置消息监听
