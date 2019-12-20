@@ -77,6 +77,7 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         _XEWebViewVC.url = url;
         _XEWebViewVC.channel = channel;
         _XEWebViewVC.navTitle = _title;
+        _XEWebViewVC.titleFontSize = _titleFontSize;
         _XEWebViewVC.titleColor = _titleColor;
         _XEWebViewVC.navViewColor = _navViewColor;
         _XEWebViewVC.backImageName = _backImageName;
@@ -92,7 +93,7 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         NSDictionary *dict = call.arguments;
         
         NSString *titleColor = dict[@"titleColor"];
-        id titleFontSize = dict[@"titleFontSize"];
+        NSNumber *titleFontSize = dict[@"titleFontSize"];
         NSString *backgroundColor = dict[@"backgroundColor"];
         
         NSString *backIconImageName = dict[@"backIconImageName"];
@@ -109,7 +110,7 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         
         self.titleColor = [self colorWithHexString:titleColor alpha:1.0];
         if (titleFontSize) {
-            self.titleFontSize = [titleFontSize doubleValue];
+            self.titleFontSize = [titleFontSize floatValue];
         }
         self.navViewColor = [self colorWithHexString:backgroundColor alpha:1.0];
 
