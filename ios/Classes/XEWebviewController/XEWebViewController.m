@@ -17,6 +17,8 @@
 @property(nonatomic, strong) UIButton *closeBtn;
 @property(nonatomic, strong) UIButton *shareBtn;
 
+@property(nonatomic, strong) UIView *navView;
+
 @end
 
 @implementation XEWebViewController
@@ -54,9 +56,12 @@
     
     // nav view
     _navView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, navHeight)];
-    _navView.backgroundColor = _navViewColor;
+    _navView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_navView];
     
+    if (_navViewColor) {
+        _navView.backgroundColor = _navViewColor;
+    }
     
     NSBundle *bundle = [NSBundle bundleForClass:[XEWebViewController class]];
     NSString *bundlePath = [bundle pathForResource:@"xe_shop_sdk" ofType:@"bundle"];
@@ -72,11 +77,11 @@
     
     // 读取 MainBundle 图片
     if (_backImageName.length > 0) {
-        backImage = [UIImage imageNamed:_backImageName];
+        backImage = [self getImage:_backImageName];
     }
     
     if (_shareImageName.length > 0) {
-        shareImage = [UIImage imageNamed:_shareImageName];
+        shareImage = [self getImage:_shareImageName];
     }
     
     if (_closeImageName.length > 0) {
@@ -107,9 +112,17 @@
     UILabel *title = [[UILabel alloc] init];
     title.textAlignment = NSTextAlignmentCenter;
     title.text = self.navTitle;
-    title.textColor = _titleColor;
+    title.textColor = [UIColor blackColor];
     title.frame = CGRectMake(80, statusHeight, [[UIScreen mainScreen] bounds].size.width - 160, 44);
     [_navView addSubview:title];
+    
+    if (_titleColor) {
+        title.textColor = _titleColor;
+    }
+    
+    if (_titleFontSize) {
+        title.font = [UIFont systemFontOfSize:_titleFontSize];
+    }
     
     CGRect webFrame = CGRectMake(0, navHeight, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - navHeight);
     UIView *contentView = [[UIView alloc] initWithFrame:webFrame];
@@ -123,6 +136,13 @@
     NSURL *requestUrl = [NSURL URLWithString:_url];
     NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
     [_webView loadRequest:request];
+}
+
+- (UIImage *)getImage:(NSString *)imageName {
+    NSString *name = [[NSString alloc] initWithFormat:@"Frameworks/App.framework/flutter_assets/images/ios/%@",[self getImageName:imageName]];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:name ofType:@"png"];
+            
+    return [UIImage imageWithContentsOfFile:imagePath];
 }
 
 -(NSString *)getImageName:(NSString *)imageName {

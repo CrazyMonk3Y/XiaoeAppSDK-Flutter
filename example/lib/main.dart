@@ -69,7 +69,7 @@ class WebViewDemoState extends State<WebViewDemo> {
 
     // 设置导航样式
     XESDK.setNavStyle(title: "Demo", titleColor: "#000000", backgroundColor: "#FBFBFD");
-
+////
     XESDK.setShareButtonImage("share");
     // 打开 SDK WebView
     XESDK.open(url, _callBack);

@@ -77,8 +77,8 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
         _XEWebViewVC.closeImageName = _closeImageName;
                 
         _XEWebViewVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        
-        UIViewController *vc = UIApplication.sharedApplication.keyWindow.rootViewController;
+                
+        UIViewController *vc = [self frontWindow].rootViewController;
         [vc presentViewController:_XEWebViewVC animated: YES completion:nil];
         
     } else if ([call.method isEqualToString: @"share"]) {
@@ -146,6 +146,22 @@ static NSString *const CHANNEL_NAME = @"xe_shop_sdk";
                            green:((float)g / 255.0f)
                             blue:((float)b / 255.0f)
                            alpha:opacity];
+}
+
+// 获取 window
+- (UIWindow *)frontWindow {
+    NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
+    for (UIWindow *window in frontToBackWindows) {
+        BOOL windowOnMainScreen = window.screen == UIScreen.mainScreen;
+        BOOL windowIsVisible = !window.hidden && window.alpha > 0;
+        BOOL windowLevelSupported = window.windowLevel >= UIWindowLevelNormal;
+        BOOL windowKeyWindow = window.isKeyWindow;
+            
+        if(windowOnMainScreen && windowIsVisible && windowLevelSupported && windowKeyWindow) {
+            return window;
+        }
+    }
+    return UIApplication.sharedApplication.keyWindow;
 }
 
 

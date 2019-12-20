@@ -87,7 +87,7 @@ class XESDK {
     channel.invokeMethod("setShareButtonImage", {"imageName": imageName});
   }
 
-  // 设置分享按钮图片, 请把 Image 放到主工程
+  // 设置关闭按钮图片, 请把 Image 放到主工程
   static setCloseButtonImage(String imageName) {
     if (imageName.isEmpty) {
       return;

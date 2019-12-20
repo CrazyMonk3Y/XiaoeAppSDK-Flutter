@@ -15,11 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *url;
 @property(nonatomic, strong) FlutterMethodChannel *channel;
 
-@property(nonatomic, strong) UIView *navView;
-
 @property(nonatomic, copy) NSString *navTitle;
-@property(nonatomic, weak) UIColor *titleColor;
-@property(nonatomic, weak) UIColor *navViewColor;
+@property(nonatomic, strong) UIColor *titleColor;
+@property(nonatomic, strong) UIColor *navViewColor;
+@property(nonatomic, assign) CGFloat titleFontSize;
 
 // 图标
 @property(nonatomic, copy) NSString *backImageName;
