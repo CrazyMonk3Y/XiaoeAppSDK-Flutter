@@ -29,7 +29,7 @@ class WebViewDemoState extends State<WebViewDemo> {
 
   String clientId = "883pzzGyzynE72G";
   String appId = "app38itOR341547";
-  String url = 'https://apprnDA0ZDw4581.sdk.xiaoe-tech.com';
+  String url = 'https://app38itOR341547.sdk.xiaoe-tech.com';
   String secretKey = "dfomGwT7JRWWnzY3okZ6yTkHtgNPTyhr";
 
   @override

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Handler
 import android.os.Message
-import com.xiaoe.shop.webcore.XiaoEWeb
+import com.xiaoe.shop.webcore.core.XiaoEWeb
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -106,13 +106,6 @@ class XeShopSdkPlugin(val registrar: Registrar) : MethodCallHandler {
             }
             "logoutSDK" -> {
                 XiaoEWeb.userLogout(registrar.context())
-            }
-            "isLog" -> {
-                val clientId = methodCall.argument<Boolean>("isLog")
-                clientId?.let { XiaoEWeb.isOpenLog(it) }
-            }
-            "getSdkVersion" -> {
-                XiaoEWeb.getSdkVersion()
             }
         }
     }

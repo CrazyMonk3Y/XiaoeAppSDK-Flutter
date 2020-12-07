@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -18,15 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.xiaoe.shop.webcore.XEToken;
-import com.xiaoe.shop.webcore.XiaoEWeb;
-import com.xiaoe.shop.webcore.bridge.JsBridgeListener;
-import com.xiaoe.shop.webcore.bridge.JsCallbackResponse;
-import com.xiaoe.shop.webcore.bridge.JsInteractType;
+import com.xiaoe.shop.webcore.core.XEToken;
+import com.xiaoe.shop.webcore.core.XiaoEWeb;
+import com.xiaoe.shop.webcore.core.bridge.JsBridgeListener;
+import com.xiaoe.shop.webcore.core.bridge.JsCallbackResponse;
+import com.xiaoe.shop.webcore.core.bridge.JsInteractType;
 
 public class XEActivity extends AppCompatActivity {
 
@@ -36,6 +32,7 @@ public class XEActivity extends AppCompatActivity {
     private ImageView mBackImg;
     private ImageView mShareImg;
     private ImageView mCloseImg;
+    private TextView mTitleTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +46,10 @@ public class XEActivity extends AppCompatActivity {
 
     private void initView() {
         RelativeLayout mTitleLayout = findViewById(R.id.xe_sdk_title_layout);
-        TextView mTitleTv = findViewById(R.id.xe_sdk_title_tv);
         mBackImg = findViewById(R.id.xe_sdk_back_img);
         mCloseImg = findViewById(R.id.xe_sdk_close_img);
         mShareImg = findViewById(R.id.xe_sdk_share_img);
+        mTitleTv = findViewById(R.id.xe_sdk_title_tv);
 
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
@@ -80,8 +77,7 @@ public class XEActivity extends AppCompatActivity {
                 } else {
                     mBackImg.setImageResource(R.mipmap.xe_sdk_back_icon);
                 }
-            }
-            else{
+            } else {
                 mBackImg.setImageResource(R.mipmap.xe_sdk_back_icon);
             }
 
@@ -93,8 +89,7 @@ public class XEActivity extends AppCompatActivity {
                 } else {
                     mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
                 }
-            }
-            else{
+            } else {
                 mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
             }
 
@@ -106,8 +101,7 @@ public class XEActivity extends AppCompatActivity {
                 } else {
                     mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
                 }
-            }
-            else{
+            } else {
                 mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
             }
 
@@ -177,13 +171,13 @@ public class XEActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        xiaoEWeb.webLifeCycle().onResume();
+        xiaoEWeb.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        xiaoEWeb.webLifeCycle().onPause();
+        xiaoEWeb.onPause();
     }
 
     @Override
@@ -197,7 +191,7 @@ public class XEActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mLoginReceiver);
-        xiaoEWeb.webLifeCycle().onDestroy();
+        xiaoEWeb.onDestroy();
     }
 
     private class LoginReceiver extends BroadcastReceiver {
