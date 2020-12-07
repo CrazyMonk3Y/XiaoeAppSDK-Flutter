@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *url;
 @property(nonatomic, strong) FlutterMethodChannel *channel;
 
+@property(nonatomic, copy) void(^callBlock)(NSString*);
 @property(nonatomic, copy) NSString *navTitle;
 @property(nonatomic, strong) UIColor *titleColor;
 @property(nonatomic, strong) UIColor *navViewColor;
