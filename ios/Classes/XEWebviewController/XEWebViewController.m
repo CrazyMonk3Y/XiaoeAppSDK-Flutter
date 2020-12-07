@@ -19,6 +19,8 @@
 
 @property(nonatomic, strong) UIView *navView;
 
+@property(nonatomic, strong) UILabel *titleLable;
+
 @end
 
 @implementation XEWebViewController
@@ -112,7 +114,8 @@
     title.text = self.navTitle;
     title.textColor = [UIColor blackColor];
     title.frame = CGRectMake(80, statusHeight, [[UIScreen mainScreen] bounds].size.width - 160, 44);
-    [_navView addSubview:title];
+    self.titleLable = title;
+    [_navView addSubview:self.titleLable];
     
     if (_titleColor) {
         title.textColor = _titleColor;
@@ -126,12 +129,12 @@
     UIView *contentView = [[UIView alloc] initWithFrame:webFrame];
     [self.view addSubview:contentView];
     
-    _webView = [[XEWebView alloc] initWithFrame:contentView.bounds webViewType:XEWebViewTypeWKWebView];
+    _webView = [[XEWebView alloc] initWithFrame:contentView.bounds];
     _webView.delegate = self;
     _webView.noticeDelegate = self;
     [contentView addSubview:_webView];
     
-    NSURL *requestUrl = [NSURL URLWithString:_url];
+    NSURL *requestUrl = [NSURL URLWithString:@"https://apprnDA0ZDw4581.h5.xiaoeknow.com/"];
     NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
     [_webView loadRequest:request];
 }
@@ -214,6 +217,14 @@
              [dict setObject:@"分享通知" forKey:@"message"];
              [dict setObject:response forKey:@"data"];
              [self messagePost:dict];
+         }
+             break;
+         case XENoticeTypeTitleChange: { // 标题修改
+             NSDictionary *param = notice.response;
+             if ([param isKindOfClass:[NSDictionary class]]) {
+                 NSString *title = param[@"title"];
+                 title.length >0 ?  self.titleLable.text = title : nil;
+             }
          }
              break;
          default:

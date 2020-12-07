@@ -13,16 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  通知类型枚举
 
- - XENoticeTypeOther: 其他通知，用户无需关心
  - XENoticeTypeLogin: 登录通知
  - XENoticeTypeShare: 接收到分享请求的结果回调
  - XENoticeTypeReady: Web页面已准备好，分享接口可用
+ - XENoticeTypeTitleChange：WebView  标题改变
+ 
+ * 点击自定义链接回调，规则为带参数 needoutlink=1 的链接, 例：https://xiaoe-tech.com/?needoutlink=1
+ - XENoticeTypeOutLinkUrl：
+ 
+ 
  */
 typedef NS_ENUM(NSUInteger, XENoticeType) {
-    XENoticeTypeOther = 0,
     XENoticeTypeLogin,
     XENoticeTypeShare,
     XENoticeTypeReady,
+    XENoticeTypeTitleChange,
+    XENoticeTypeOutLinkUrl,
 };
 
 @interface XENotice : NSObject
