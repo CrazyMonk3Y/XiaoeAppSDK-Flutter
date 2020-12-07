@@ -134,7 +134,7 @@
     _webView.noticeDelegate = self;
     [contentView addSubview:_webView];
     
-    NSURL *requestUrl = [NSURL URLWithString:@"https://apprnDA0ZDw4581.h5.xiaoeknow.com/"];
+    NSURL *requestUrl = [NSURL URLWithString:_url];
     NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
     [_webView loadRequest:request];
 }
