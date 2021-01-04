@@ -106,7 +106,7 @@ public class XEActivity extends AppCompatActivity {
             // }
 
             // 隐藏标题栏（导航栏）
-            mTitleLayout.visibility = View.GONE 
+            mTitleLayout.setVisibility(View.GONE);
 
             RelativeLayout webLayout = findViewById(R.id.web_layout);
             xiaoEWeb = XiaoEWeb.with(this)
