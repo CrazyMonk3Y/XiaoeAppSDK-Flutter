@@ -105,6 +105,9 @@ public class XEActivity extends AppCompatActivity {
             //     mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
             // }
 
+            // 隐藏标题栏（导航栏）
+            mTitleLayout.visibility = View.GONE 
+
             RelativeLayout webLayout = findViewById(R.id.web_layout);
             xiaoEWeb = XiaoEWeb.with(this)
                     .setWebParent(webLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
