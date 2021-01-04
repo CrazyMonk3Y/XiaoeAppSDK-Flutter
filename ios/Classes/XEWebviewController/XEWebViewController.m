@@ -99,7 +99,7 @@
     _closeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_closeBtn setImage:closeImage forState:UIControlStateNormal];
     [_closeBtn addTarget:self action:@selector(closeBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [_navView addSubview:_closeBtn];
+//    [_navView addSubview:_closeBtn];
     
     // share button
     _shareBtn = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 15 - 44,  statusHeight, 44, 44)];
@@ -170,7 +170,7 @@
      if (_webView.canGoBack) {
          [_webView goBack];
      } else {
-         [self dismissViewControllerAnimated:YES completion:nil];
+//         [self dismissViewControllerAnimated:YES completion:nil];
      }
 }
 
