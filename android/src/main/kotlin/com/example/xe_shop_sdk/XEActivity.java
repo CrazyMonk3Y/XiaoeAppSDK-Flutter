@@ -81,29 +81,29 @@ public class XEActivity extends AppCompatActivity {
                 mBackImg.setImageResource(R.mipmap.xe_sdk_back_icon);
             }
 
-            String closeIconImageName = intent.getStringExtra("closeIconImageName");
-            if (closeIconImageName != null) {
-                Bitmap sdkCloseIcon = zoomImg(closeIconImageName);
-                if (sdkCloseIcon != null) {
-                    mCloseImg.setImageBitmap(sdkCloseIcon);
-                } else {
-                    mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
-                }
-            } else {
-                mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
-            }
+            // String closeIconImageName = intent.getStringExtra("closeIconImageName");
+            // if (closeIconImageName != null) {
+            //     Bitmap sdkCloseIcon = zoomImg(closeIconImageName);
+            //     if (sdkCloseIcon != null) {
+            //         mCloseImg.setImageBitmap(sdkCloseIcon);
+            //     } else {
+            //         mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
+            //     }
+            // } else {
+            //     mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
+            // }
 
-            String shareIconImageName = intent.getStringExtra("shareIconImageName");
-            if (shareIconImageName != null) {
-                Bitmap sdkShareIcon = zoomImg(shareIconImageName);
-                if (sdkShareIcon != null) {
-                    mShareImg.setImageBitmap(sdkShareIcon);
-                } else {
-                    mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
-                }
-            } else {
-                mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
-            }
+            // String shareIconImageName = intent.getStringExtra("shareIconImageName");
+            // if (shareIconImageName != null) {
+            //     Bitmap sdkShareIcon = zoomImg(shareIconImageName);
+            //     if (sdkShareIcon != null) {
+            //         mShareImg.setImageBitmap(sdkShareIcon);
+            //     } else {
+            //         mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
+            //     }
+            // } else {
+            //     mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
+            // }
 
             RelativeLayout webLayout = findViewById(R.id.web_layout);
             xiaoEWeb = XiaoEWeb.with(this)
@@ -123,7 +123,7 @@ public class XEActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!xiaoEWeb.handlerBack()) {
-                    finish();
+                    // finish();
                 }
             }
         });
@@ -131,14 +131,14 @@ public class XEActivity extends AppCompatActivity {
         mShareImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xiaoEWeb.share();
+                // xiaoEWeb.share();
             }
         });
 
         mCloseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                // finish();
             }
         });
 
