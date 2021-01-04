@@ -106,7 +106,7 @@
     _shareBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [_shareBtn setImage:shareImage forState:UIControlStateNormal];
     [_shareBtn addTarget:self action:@selector(shareBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [_navView addSubview:_shareBtn];
+//    [_navView addSubview:_shareBtn];
     
     // title
     UILabel *title = [[UILabel alloc] init];
