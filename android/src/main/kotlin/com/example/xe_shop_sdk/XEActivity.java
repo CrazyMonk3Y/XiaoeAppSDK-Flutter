@@ -24,8 +24,6 @@ import com.xiaoe.shop.webcore.core.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.core.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.core.bridge.JsInteractType;
 
-import java.util.ArrayList;
-
 public class XEActivity extends AppCompatActivity {
 
     private XiaoEWeb xiaoEWeb;
@@ -35,17 +33,6 @@ public class XEActivity extends AppCompatActivity {
     private ImageView mShareImg;
     private ImageView mCloseImg;
     private TextView mTitleTv;
-
-    private String[] noTitleList = {
-            "https://appoamtsmhy5043.h5.xiaoeknow.com",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/10",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/10/",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/30",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/30/",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/50/",
-            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/50"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +54,9 @@ public class XEActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
 
-            String url = intent.getStringExtra("shop_url");
-
             String title = intent.getStringExtra("title");
-           if (title != null)
-               mTitleTv.setText(title);
+            if (title != null)
+                mTitleTv.setText(title);
 
             int titleFontSize = intent.getIntExtra("titleFontSize", 17);
             mTitleTv.setTextSize(titleFontSize);
@@ -200,11 +185,6 @@ public class XEActivity extends AppCompatActivity {
         if (xiaoEWeb.handlerKeyEvent(keyCode, event))
             return true;
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onBackPressed() {
-
     }
 
     @Override
