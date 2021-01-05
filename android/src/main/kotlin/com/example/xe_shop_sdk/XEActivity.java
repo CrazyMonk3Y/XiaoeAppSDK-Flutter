@@ -85,24 +85,23 @@ public class XEActivity extends AppCompatActivity {
 //            }
 
             String title = intent.getStringExtra("title");
-           // mTitleTv.setText("值得读");
-            if (title != null)
+            if (title != null) {
                 mTitleTv.setText(title);
-            
-
-            // int titleFontSize = intent.getIntExtra("titleFontSize", 17);
-            mTitleTv.setTextSize(17);
-
-            mTitleTv.setTextColor(Color.parseColor("#333333"));
-            // String titleColor = intent.getStringExtra("titleColor");
-            // if (titleColor != null)
-            //     mTitleTv.setTextColor(Color.parseColor(titleColor));
+            } else {
+                mTitleTv.setText("值得读");
+            }
 
 
-             mTitleLayout.setBackgroundColor(Color.parseColor("#F56250"));
-            // String backgroundColor = intent.getStringExtra("backgroundColor");
-            // if (backgroundColor != null)
-            //     mTitleLayout.setBackgroundColor(Color.parseColor(backgroundColor));
+            int titleFontSize = intent.getIntExtra("titleFontSize", 17);
+            mTitleTv.setTextSize(titleFontSize);
+
+            String titleColor = intent.getStringExtra("titleColor");
+            if (titleColor != null)
+                mTitleTv.setTextColor(Color.parseColor(titleColor));
+
+            String backgroundColor = intent.getStringExtra("backgroundColor");
+            if (backgroundColor != null)
+                mTitleLayout.setBackgroundColor(Color.parseColor(backgroundColor));
 
             String backIconImageName = intent.getStringExtra("backIconImageName");
             if (backIconImageName != null) {
@@ -155,13 +154,13 @@ public class XEActivity extends AppCompatActivity {
                 @Override
                 public void onPageFinished(WebView webView, String s) {
                     super.onPageFinished(webView, s);
-                    // if (!xiaoEWeb.canGoBack()){
-                    //     mBackImg.setVisibility(View.GONE);
-                    //     mTitleLayout.setVisibility(View.GONE);
-                    // }else{
-                    //     mBackImg.setVisibility(View.VISIBLE);
-                    //     mTitleLayout.setVisibility(View.VISIBLE);
-                    // }
+                    if (!xiaoEWeb.canGoBack()){
+                        mBackImg.setVisibility(View.GONE);
+                        // mTitleLayout.setVisibility(View.GONE);
+                    }else{
+                        mBackImg.setVisibility(View.VISIBLE);
+                        // mTitleLayout.setVisibility(View.VISIBLE);
+                    }
                     
                 }
             });
