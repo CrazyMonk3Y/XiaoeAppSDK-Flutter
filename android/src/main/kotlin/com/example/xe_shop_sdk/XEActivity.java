@@ -14,17 +14,19 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.xiaoe.shop.webcore.core.XEToken;
 import com.xiaoe.shop.webcore.core.XiaoEWeb;
 import com.xiaoe.shop.webcore.core.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.core.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.core.bridge.JsInteractType;
+import com.xiaoe.shop.webcore.core.webview.CustomX5WebView;
 
 import java.util.ArrayList;
 
@@ -144,16 +146,25 @@ public class XEActivity extends AppCompatActivity {
             String tokenKey = intent.getStringExtra("tokenKey");
             String tokenValue = intent.getStringExtra("tokenValue");
             xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
-            WebView web = (WebView) xiaoEWeb.getRealWebView();
+            CustomX5WebView web = (CustomX5WebView) xiaoEWeb.getRealWebView();
             web.setWebViewClient(new WebViewClient(){
                 @Override
-                public void onPageFinished(WebView view, String url) {
+                public void onPageFinished(WebView webView, String s) {
                     if (!xiaoEWeb.handlerBack()){
                         mBackImg.setVisibility(View.GONE);
                     }
-                    super.onPageFinished(view, url);
+                    super.onPageFinished(webView, s);
                 }
             });
+//            web.setWebViewClient(new WebViewClient(){
+//                @Override
+//                public void onPageFinished(WebView view, String url) {
+//                    if (!xiaoEWeb.handlerBack()){
+//                        mBackImg.setVisibility(View.GONE);
+//                    }
+//                    super.onPageFinished(view, url);
+//                }
+//            });
 
         }
     }
