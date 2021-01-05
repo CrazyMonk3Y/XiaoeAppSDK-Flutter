@@ -85,12 +85,11 @@ public class XEActivity extends AppCompatActivity {
 //            }
 
             String title = intent.getStringExtra("title");
-            if (title != null) {
+            if (title != null && !"".equals(title)) {
                 mTitleTv.setText(title);
             } else {
                 mTitleTv.setText("值得读");
             }
-
 
             int titleFontSize = intent.getIntExtra("titleFontSize", 17);
             mTitleTv.setTextSize(titleFontSize);
