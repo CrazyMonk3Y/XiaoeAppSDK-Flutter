@@ -62,6 +62,7 @@ public class XEActivity extends AppCompatActivity {
             mTitleTv.setTextSize(titleFontSize);
 
             String titleColor = intent.getStringExtra("titleColor");
+            titleColor = "#000000";
             if (titleColor != null)
                 mTitleTv.setTextColor(Color.parseColor(titleColor));
 
