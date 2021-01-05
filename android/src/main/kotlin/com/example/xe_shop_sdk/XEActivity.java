@@ -150,12 +150,13 @@ public class XEActivity extends AppCompatActivity {
             web.setWebViewClient(new WebViewClient(){
                 @Override
                 public void onPageFinished(WebView webView, String s) {
+                    super.onPageFinished(webView, s);
                     if (!xiaoEWeb.handlerBack()){
                         mBackImg.setVisibility(View.GONE);
                     }else{
                         mBackImg.setVisibility(View.VISIBLE);
                     }
-                    super.onPageFinished(webView, s);
+                    
                 }
             });
 //            web.setWebViewClient(new WebViewClient(){
