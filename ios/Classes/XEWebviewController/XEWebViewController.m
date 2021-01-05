@@ -51,6 +51,7 @@
         && [UIScreen mainScreen].bounds.size.height < 1024) {
         navHeight = 88;
     }
+    CGFloat navHeight = 0;
     
     CGFloat statusHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
     
