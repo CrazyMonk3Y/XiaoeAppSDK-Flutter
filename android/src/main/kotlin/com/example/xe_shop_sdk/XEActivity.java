@@ -84,10 +84,10 @@ public class XEActivity extends AppCompatActivity {
 //                mTitleLayout.setVisibility(View.GONE);
 //            }
 
-            // String title = intent.getStringExtra("title");
-           mTitleTv.setText("值得读");
-            // if (title != null)
-            //     mTitleTv.setText(title);
+            String title = intent.getStringExtra("title");
+           // mTitleTv.setText("值得读");
+            if (title != null)
+                mTitleTv.setText(title);
             
 
             // int titleFontSize = intent.getIntExtra("titleFontSize", 17);
