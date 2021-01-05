@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ import com.xiaoe.shop.webcore.core.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.core.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.core.bridge.JsInteractType;
 
+import java.util.ArrayList;
+
 public class XEActivity extends AppCompatActivity {
 
     private XiaoEWeb xiaoEWeb;
@@ -33,6 +37,17 @@ public class XEActivity extends AppCompatActivity {
     private ImageView mShareImg;
     private ImageView mCloseImg;
     private TextView mTitleTv;
+
+    private String[] noTitleList = {
+            "https://appoamtsmhy5043.h5.xiaoeknow.com",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/10",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/10/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/30",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/30/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/50/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/50"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +69,21 @@ public class XEActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
 
+            String url = intent.getStringExtra("shop_url");
+//            boolean flag = true;
+//            for (int i = 0; i < noTitleList.length; i++) {
+//                if (noTitleList[i].equals(url)){
+//                    flag = false;
+//                }
+//            }
+//            if (flag) {
+//                mTitleLayout.setVisibility(View.VISIBLE);
+//            }else {
+//                mTitleLayout.setVisibility(View.GONE);
+//            }
+
             String title = intent.getStringExtra("title");
+//            mTitleTv.setText("值得读");
             if (title != null)
                 mTitleTv.setText(title);
 
@@ -62,7 +91,6 @@ public class XEActivity extends AppCompatActivity {
             mTitleTv.setTextSize(titleFontSize);
 
             String titleColor = intent.getStringExtra("titleColor");
-            titleColor = "#000000";
             if (titleColor != null)
                 mTitleTv.setTextColor(Color.parseColor(titleColor));
 
@@ -116,6 +144,17 @@ public class XEActivity extends AppCompatActivity {
             String tokenKey = intent.getStringExtra("tokenKey");
             String tokenValue = intent.getStringExtra("tokenValue");
             xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
+            WebView web = (WebView) xiaoEWeb.getRealWebView();
+            web.setWebViewClient(new WebViewClient(){
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    if (!xiaoEWeb.handlerBack()){
+                        mBackImg.setVisibility(View.GONE);
+                    }
+                    super.onPageFinished(view, url);
+                }
+            });
+
         }
     }
 
@@ -124,7 +163,7 @@ public class XEActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!xiaoEWeb.handlerBack()) {
-                    finish();
+//                    finish();
                 }
             }
         });
@@ -187,6 +226,11 @@ public class XEActivity extends AppCompatActivity {
             return true;
         return super.onKeyDown(keyCode, event);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 
     @Override
     protected void onDestroy() {
