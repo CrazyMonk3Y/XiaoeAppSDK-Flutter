@@ -24,6 +24,8 @@ import com.xiaoe.shop.webcore.core.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.core.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.core.bridge.JsInteractType;
 
+import java.util.ArrayList;
+
 public class XEActivity extends AppCompatActivity {
 
     private XiaoEWeb xiaoEWeb;
@@ -33,6 +35,17 @@ public class XEActivity extends AppCompatActivity {
     private ImageView mShareImg;
     private ImageView mCloseImg;
     private TextView mTitleTv;
+
+    private String[] noTitleList = {
+            "https://appoamtsmhy5043.h5.xiaoeknow.com",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/10",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/10/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/30",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/30/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/50/",
+            "https://appoamtsmhy5043.h5.xiaoeknow.com/homepage/50"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +67,23 @@ public class XEActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("shop_url") != null) {
 
+            String url = intent.getStringExtra("shop_url");
+            boolean flag = true;
+            for (int i = 0; i < noTitleList.length; i++) {
+                if (noTitleList[i].equals(url)){
+                    flag = false;
+                }
+            }
+            if (flag) {
+                mTitleLayout.setVisibility(View.VISIBLE);
+            }else {
+                mTitleLayout.setVisibility(View.GONE);
+            }
+
             String title = intent.getStringExtra("title");
-            if (title != null)
-                mTitleTv.setText(title);
+            mTitleTv.setText("值得读");
+//            if (title != null)
+//                mTitleTv.setText(title);
 
             int titleFontSize = intent.getIntExtra("titleFontSize", 17);
             mTitleTv.setTextSize(titleFontSize);
@@ -81,32 +108,29 @@ public class XEActivity extends AppCompatActivity {
                 mBackImg.setImageResource(R.mipmap.xe_sdk_back_icon);
             }
 
-            // String closeIconImageName = intent.getStringExtra("closeIconImageName");
-            // if (closeIconImageName != null) {
-            //     Bitmap sdkCloseIcon = zoomImg(closeIconImageName);
-            //     if (sdkCloseIcon != null) {
-            //         mCloseImg.setImageBitmap(sdkCloseIcon);
-            //     } else {
-            //         mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
-            //     }
-            // } else {
-            //     mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
-            // }
+            String closeIconImageName = intent.getStringExtra("closeIconImageName");
+            if (closeIconImageName != null) {
+                Bitmap sdkCloseIcon = zoomImg(closeIconImageName);
+                if (sdkCloseIcon != null) {
+                    mCloseImg.setImageBitmap(sdkCloseIcon);
+                } else {
+                    mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
+                }
+            } else {
+                mCloseImg.setImageResource(R.mipmap.xe_sdk_close_icon);
+            }
 
-            // String shareIconImageName = intent.getStringExtra("shareIconImageName");
-            // if (shareIconImageName != null) {
-            //     Bitmap sdkShareIcon = zoomImg(shareIconImageName);
-            //     if (sdkShareIcon != null) {
-            //         mShareImg.setImageBitmap(sdkShareIcon);
-            //     } else {
-            //         mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
-            //     }
-            // } else {
-            //     mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
-            // }
-
-            // 隐藏标题栏（导航栏）
-            mTitleLayout.setVisibility(View.GONE);
+            String shareIconImageName = intent.getStringExtra("shareIconImageName");
+            if (shareIconImageName != null) {
+                Bitmap sdkShareIcon = zoomImg(shareIconImageName);
+                if (sdkShareIcon != null) {
+                    mShareImg.setImageBitmap(sdkShareIcon);
+                } else {
+                    mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
+                }
+            } else {
+                mShareImg.setImageResource(R.mipmap.xe_sdk_share_icon);
+            }
 
             RelativeLayout webLayout = findViewById(R.id.web_layout);
             xiaoEWeb = XiaoEWeb.with(this)
@@ -126,7 +150,7 @@ public class XEActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!xiaoEWeb.handlerBack()) {
-                    // finish();
+                    finish();
                 }
             }
         });
@@ -134,14 +158,14 @@ public class XEActivity extends AppCompatActivity {
         mShareImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // xiaoEWeb.share();
+                xiaoEWeb.share();
             }
         });
 
         mCloseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // finish();
+                finish();
             }
         });
 
@@ -188,6 +212,11 @@ public class XEActivity extends AppCompatActivity {
         if (xiaoEWeb.handlerKeyEvent(keyCode, event))
             return true;
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     @Override
