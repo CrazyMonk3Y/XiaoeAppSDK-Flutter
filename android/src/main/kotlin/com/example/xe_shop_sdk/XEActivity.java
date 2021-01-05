@@ -68,22 +68,10 @@ public class XEActivity extends AppCompatActivity {
         if (intent != null && intent.getStringExtra("shop_url") != null) {
 
             String url = intent.getStringExtra("shop_url");
-            boolean flag = true;
-            for (int i = 0; i < noTitleList.length; i++) {
-                if (noTitleList[i].equals(url)){
-                    flag = false;
-                }
-            }
-            if (flag) {
-                mTitleLayout.setVisibility(View.VISIBLE);
-            }else {
-                mTitleLayout.setVisibility(View.GONE);
-            }
 
             String title = intent.getStringExtra("title");
-            mTitleTv.setText("值得读");
-//            if (title != null)
-//                mTitleTv.setText(title);
+           if (title != null)
+               mTitleTv.setText(title);
 
             int titleFontSize = intent.getIntExtra("titleFontSize", 17);
             mTitleTv.setTextSize(titleFontSize);
