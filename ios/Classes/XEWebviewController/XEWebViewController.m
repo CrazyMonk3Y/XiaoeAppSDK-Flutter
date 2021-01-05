@@ -46,14 +46,14 @@
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    CGFloat navHeight = 64;
-    if ([UIScreen mainScreen].bounds.size.height >= 812
-        && [UIScreen mainScreen].bounds.size.height < 1024) {
-        navHeight = 88;
-    }
-    navHeight = 0;
+//    CGFloat navHeight = 64;
+//    if ([UIScreen mainScreen].bounds.size.height >= 812
+//        && [UIScreen mainScreen].bounds.size.height < 1024) {
+//        navHeight = 88;
+//    }
     
     CGFloat statusHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat navHeight = statusHeight;
     
     // nav view
     _navView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, navHeight)];
