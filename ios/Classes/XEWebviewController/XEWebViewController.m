@@ -46,19 +46,18 @@
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
-//    CGFloat navHeight = 64;
-//    if ([UIScreen mainScreen].bounds.size.height >= 812
-//        && [UIScreen mainScreen].bounds.size.height < 1024) {
-//        navHeight = 88;
-//    }
+    CGFloat navHeight = 64;
+    if ([UIScreen mainScreen].bounds.size.height >= 812
+        && [UIScreen mainScreen].bounds.size.height < 1024) {
+        navHeight = 88;
+    }
     
     CGFloat statusHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
-    CGFloat navHeight = statusHeight;
     
     // nav view
     _navView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, navHeight)];
     _navView.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:_navView];
+    [self.view addSubview:_navView];
     
     if (_navViewColor) {
         _navView.backgroundColor = _navViewColor;
@@ -259,6 +258,8 @@
      [dict setObject:@"success" forKey:@"data"];
      
      [self messagePost:dict];
+     
+     _backBtn.hidden = !_webView.canGoBack;
  }
 
  - (void)webView:(id<XEWebView>)webView didFailLoadWithError:(NSError *)error
