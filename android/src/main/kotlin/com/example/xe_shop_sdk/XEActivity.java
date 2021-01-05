@@ -151,7 +151,7 @@ public class XEActivity extends AppCompatActivity {
                 @Override
                 public void onPageFinished(WebView webView, String s) {
                     super.onPageFinished(webView, s);
-                    if (!xiaoEWeb.handlerBack()){
+                    if (!xiaoEWeb.canGoBack()){
                         mBackImg.setVisibility(View.GONE);
                     }else{
                         mBackImg.setVisibility(View.VISIBLE);
