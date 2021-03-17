@@ -27,6 +27,7 @@ import com.xiaoe.shop.webcore.core.bridge.JsBridgeListener;
 import com.xiaoe.shop.webcore.core.bridge.JsCallbackResponse;
 import com.xiaoe.shop.webcore.core.bridge.JsInteractType;
 import com.xiaoe.shop.webcore.core.webview.CustomX5WebView;
+import com.xiaoe.shop.webcore.core.webview.CustomAndroidWebView;
 
 import java.util.ArrayList;
 
@@ -148,30 +149,43 @@ public class XEActivity extends AppCompatActivity {
             String tokenKey = intent.getStringExtra("tokenKey");
             String tokenValue = intent.getStringExtra("tokenValue");
             xiaoEWeb.sync(new XEToken(tokenKey, tokenValue));
-            CustomX5WebView web = (CustomX5WebView) xiaoEWeb.getRealWebView();
-            web.setWebViewClient(new WebViewClient(){
-                @Override
-                public void onPageFinished(WebView webView, String s) {
-                    super.onPageFinished(webView, s);
-                    if (!xiaoEWeb.canGoBack()){
-                        mBackImg.setVisibility(View.GONE);
-                        // mTitleLayout.setVisibility(View.GONE);
-                    }else{
-                        mBackImg.setVisibility(View.VISIBLE);
-                        // mTitleLayout.setVisibility(View.VISIBLE);
+
+            if (xiaoEWeb.getRealWebView() instanceof CustomX5WebView) {
+                CustomX5WebView web = (CustomX5WebView) xiaoEWeb.getRealWebView();
+                web.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageFinished(WebView webView, String s) {
+                        super.onPageFinished(webView, s);
+                        if (!xiaoEWeb.canGoBack()){
+                            mBackImg.setVisibility(View.GONE);
+                            // mTitleLayout.setVisibility(View.GONE);
+                        }else{
+                            mBackImg.setVisibility(View.VISIBLE);
+                            // mTitleLayout.setVisibility(View.VISIBLE);
+                        }
+
                     }
-                    
-                }
-            });
-//            web.setWebViewClient(new WebViewClient(){
-//                @Override
-//                public void onPageFinished(WebView view, String url) {
-//                    if (!xiaoEWeb.handlerBack()){
-//                        mBackImg.setVisibility(View.GONE);
-//                    }
-//                    super.onPageFinished(view, url);
-//                }
-//            });
+                });
+
+            }
+            if (xiaoEWeb.getRealWebView() instanceof CustomAndroidWebView) {
+                CustomAndroidWebView web = (CustomAndroidWebView) xiaoEWeb.getRealWebView();
+                web.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public void onPageFinished(WebView webView, String s) {
+                        super.onPageFinished(webView, s);
+                        if (!xiaoEWeb.canGoBack()){
+                            mBackImg.setVisibility(View.GONE);
+                            // mTitleLayout.setVisibility(View.GONE);
+                        }else{
+                            mBackImg.setVisibility(View.VISIBLE);
+                            // mTitleLayout.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
+
+            }
 
         }
     }
